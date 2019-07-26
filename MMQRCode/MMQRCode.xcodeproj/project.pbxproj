@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		DF03619222E8240E000B4C24 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF03619122E8240E000B4C24 /* AppDelegate.swift */; };
-		DF03619422E8240E000B4C24 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF03619322E8240E000B4C24 /* ViewController.swift */; };
 		DF03619722E8240E000B4C24 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF03619522E8240E000B4C24 /* Main.storyboard */; };
 		DF03619922E8240F000B4C24 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF03619822E8240F000B4C24 /* Assets.xcassets */; };
 		DF03619C22E8240F000B4C24 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF03619A22E8240F000B4C24 /* LaunchScreen.storyboard */; };
@@ -23,6 +22,9 @@
 		DF0361DF22E9B9DC000B4C24 /* MQHome.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF0361DE22E9B9DC000B4C24 /* MQHome.storyboard */; };
 		DF0361E222E9BC34000B4C24 /* MQImageLabelCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0361E122E9BC34000B4C24 /* MQImageLabelCVCell.swift */; };
 		DF0361E422E9C0D0000B4C24 /* MQConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0361E322E9C0D0000B4C24 /* MQConstant.swift */; };
+		DF0361E722EA9894000B4C24 /* MQScanHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0361E622EA9894000B4C24 /* MQScanHomeVC.swift */; };
+		DF0361E922EA9A7D000B4C24 /* UIBarButtonItem+MM_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0361E822EA9A7D000B4C24 /* UIBarButtonItem+MM_Extension.swift */; };
+		DF0361EE22EADEF6000B4C24 /* UIAlert+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0361ED22EADEF6000B4C24 /* UIAlert+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,7 +47,6 @@
 /* Begin PBXFileReference section */
 		DF03618E22E8240E000B4C24 /* MMQRCode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MMQRCode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF03619122E8240E000B4C24 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DF03619322E8240E000B4C24 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		DF03619622E8240E000B4C24 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DF03619822E8240F000B4C24 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DF03619B22E8240F000B4C24 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -65,6 +66,9 @@
 		DF0361DE22E9B9DC000B4C24 /* MQHome.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MQHome.storyboard; sourceTree = "<group>"; };
 		DF0361E122E9BC34000B4C24 /* MQImageLabelCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQImageLabelCVCell.swift; sourceTree = "<group>"; };
 		DF0361E322E9C0D0000B4C24 /* MQConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQConstant.swift; sourceTree = "<group>"; };
+		DF0361E622EA9894000B4C24 /* MQScanHomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQScanHomeVC.swift; sourceTree = "<group>"; };
+		DF0361E822EA9A7D000B4C24 /* UIBarButtonItem+MM_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+MM_Extension.swift"; sourceTree = "<group>"; };
+		DF0361ED22EADEF6000B4C24 /* UIAlert+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlert+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,7 +121,6 @@
 			children = (
 				DF0361C122E82531000B4C24 /* Class */,
 				DF03619122E8240E000B4C24 /* AppDelegate.swift */,
-				DF03619322E8240E000B4C24 /* ViewController.swift */,
 				DF03619522E8240E000B4C24 /* Main.storyboard */,
 				DF03619822E8240F000B4C24 /* Assets.xcassets */,
 				DF03619A22E8240F000B4C24 /* LaunchScreen.storyboard */,
@@ -147,6 +150,8 @@
 		DF0361C122E82531000B4C24 /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				DF0361EC22EADEBD000B4C24 /* Component */,
+				DF0361EA22EAA810000B4C24 /* Common */,
 				DF0361D822E9B956000B4C24 /* Home */,
 				DF0361D222E9B493000B4C24 /* Main */,
 				DF0361C222E82531000B4C24 /* Extension */,
@@ -157,9 +162,10 @@
 		DF0361C222E82531000B4C24 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				DF0361ED22EADEF6000B4C24 /* UIAlert+Extension.swift */,
 				DF0361C322E82531000B4C24 /* UIKit+Extension.swift */,
 				DF0361C422E82531000B4C24 /* UIColor+MM_Extension.swift */,
-				DF0361E322E9C0D0000B4C24 /* MQConstant.swift */,
+				DF0361E822EA9A7D000B4C24 /* UIBarButtonItem+MM_Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -185,6 +191,7 @@
 		DF0361D822E9B956000B4C24 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				DF0361E522EA8F00000B4C24 /* Scan */,
 				DF0361E022E9BC15000B4C24 /* View */,
 				DF0361DB22E9B98E000B4C24 /* Controller */,
 				DF0361DE22E9B9DC000B4C24 /* MQHome.storyboard */,
@@ -206,6 +213,37 @@
 				DF0361E122E9BC34000B4C24 /* MQImageLabelCVCell.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		DF0361E522EA8F00000B4C24 /* Scan */ = {
+			isa = PBXGroup;
+			children = (
+				DF0361E622EA9894000B4C24 /* MQScanHomeVC.swift */,
+			);
+			path = Scan;
+			sourceTree = "<group>";
+		};
+		DF0361EA22EAA810000B4C24 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				DF0361EB22EAA819000B4C24 /* Constant */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		DF0361EB22EAA819000B4C24 /* Constant */ = {
+			isa = PBXGroup;
+			children = (
+				DF0361E322E9C0D0000B4C24 /* MQConstant.swift */,
+			);
+			path = Constant;
+			sourceTree = "<group>";
+		};
+		DF0361EC22EADEBD000B4C24 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Component;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -341,15 +379,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF0361EE22EADEF6000B4C24 /* UIAlert+Extension.swift in Sources */,
 				DF0361DA22E9B987000B4C24 /* MQBaseViewController.swift in Sources */,
+				DF0361E922EA9A7D000B4C24 /* UIBarButtonItem+MM_Extension.swift in Sources */,
 				DF0361E422E9C0D0000B4C24 /* MQConstant.swift in Sources */,
 				DF0361DD22E9B9B2000B4C24 /* MQHomeVC.swift in Sources */,
-				DF03619422E8240E000B4C24 /* ViewController.swift in Sources */,
 				DF0361D722E9B5E0000B4C24 /* MQBaseNavigationViewController.swift in Sources */,
 				DF0361E222E9BC34000B4C24 /* MQImageLabelCVCell.swift in Sources */,
 				DF0361D522E9B511000B4C24 /* MQTabbarController.swift in Sources */,
 				DF0361C522E82531000B4C24 /* UIKit+Extension.swift in Sources */,
 				DF03619222E8240E000B4C24 /* AppDelegate.swift in Sources */,
+				DF0361E722EA9894000B4C24 /* MQScanHomeVC.swift in Sources */,
 				DF0361C622E82531000B4C24 /* UIColor+MM_Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -526,13 +566,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 93ZZP65JJM;
 				INFOPLIST_FILE = MMQRCode/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mumu.MMQRCode.MMQRCode;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cangbaopai.mumu.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -544,13 +585,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 93ZZP65JJM;
 				INFOPLIST_FILE = MMQRCode/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mumu.MMQRCode.MMQRCode;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cangbaopai.mumu.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

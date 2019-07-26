@@ -11,6 +11,22 @@ import UIKit
 class MQHomeVC: MQBaseViewController {
 
     @IBOutlet weak var mainCollectionView: UICollectionView!
+    var pushArray: Array<String> {
+        get {
+            return ["MQScanHomeVC","MQScanHomeVC","MQScanHomeVC","MQScanHomeVC"]
+        }
+    }
+    
+    var itemArray: Array<Dictionary<String, Any>> {
+        get {
+            let arr = [["img":"scan_icon_btn","title":"扫一扫"],
+                       ["img":"scan_icon_btn","title":"扫描记录"],
+                       ["img":"scan_icon_btn","title":"生成二维码"],
+                       ["img":"scan_icon_btn","title":"生成记录"],
+                       ]
+            return arr
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,11 +44,19 @@ class MQHomeVC: MQBaseViewController {
 
 extension MQHomeVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MQImageLabelCVCell", for: indexPath)
+        let cell: MQImageLabelCVCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MQImageLabelCVCell", for: indexPath) as! MQImageLabelCVCell
+        cell.dataSource = itemArray[indexPath.row]
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return self.itemArray.count
+    }
+}
+extension MQHomeVC: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vcStr = pushArray[indexPath.row]
+        let vc = UIStoryboard(name: "MQHome", bundle: nil).instantiateViewController(withIdentifier: vcStr)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

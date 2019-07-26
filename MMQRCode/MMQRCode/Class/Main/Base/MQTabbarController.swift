@@ -20,7 +20,10 @@ class MQTabbarController: UITabBarController {
         homeNavi.title = "主页"
         addChild(homeNavi)
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
 
     /*
     // MARK: - Navigation

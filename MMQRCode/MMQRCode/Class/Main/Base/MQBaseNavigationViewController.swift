@@ -13,18 +13,33 @@ class MQBaseNavigationViewController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        self.interactivePopGestureRecognizer?.delegate = self as UIGestureRecognizerDelegate
     }
+
+    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+        if viewControllers.count >= 1 {
+            viewController.hidesBottomBarWhenPushed = true
+            var itemStyle = PopItemStyle.PopItemBlack
+            
+            if viewController.responds(to: #selector(naviBarPopItemStyle)) {
+                itemStyle = viewController.naviBarPopItemStyle()
+            }
+            let popItem = UIBarButtonItem.barButtomItem(title: nil, selectedTitle: nil, titleColor: nil, selectedColor: nil, image: itemStyle == PopItemStyle.PopItemBlack ? "btn_back_black" : "btn_back_white" , selectedImg: nil, target: viewController, selecter: #selector(popToPreviousVC))
+            viewController.navigationItem.leftBarButtonItem = popItem
+        }
+        super .pushViewController(viewController, animated: true)
+    }
+//    override func popViewController(animated: Bool) -> UIViewController? {
+//        return super .popViewController(animated: animated)
+//    }
     
+}
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+extension MQBaseNavigationViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if viewControllers.count > 1 {
+            return true
+        }
+        return false
     }
-    */
-
 }
