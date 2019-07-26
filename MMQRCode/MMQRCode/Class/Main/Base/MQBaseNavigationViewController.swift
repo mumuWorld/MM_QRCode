@@ -32,7 +32,6 @@ class MQBaseNavigationViewController: UINavigationController {
 //    override func popViewController(animated: Bool) -> UIViewController? {
 //        return super .popViewController(animated: animated)
 //    }
-    
 }
 
 extension MQBaseNavigationViewController: UIGestureRecognizerDelegate {

@@ -32,6 +32,7 @@ class MQScanHomeVC: MQBaseViewController {
         return AVCaptureVideoPreviewLayer(session: session)
     }()
     
+    @IBOutlet weak var scanMaskView: MQScanMarkView!
     var rightItem: UIBarButtonItem {
         get {
             let _rightItem = UIBarButtonItem.barButtomItem(title: "相册", selectedTitle: nil, titleColor: MQMainColor, selectedColor: nil, image: nil, selectedImg: nil, target: self, selecter: #selector(handleBtnClick(sender:)))
@@ -39,34 +40,27 @@ class MQScanHomeVC: MQBaseViewController {
         }
     }
     var saveCheckStatus:AVAuthorizationStatus?
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.black
         saveCheckStatus = .notDetermined
         setupSubViews()
+        checkupAuthorization()
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-//        checkupAuthorization()
-    }
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+////        checkupAuthorization()
+//    }
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+        super.viewWillDisappear(animated)
         session.stopRunning()
         isScaning = false;
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        checkupAuthorization()
-    }
-    override func willMove(toParent parent: UIViewController?) {
-        super.willMove(toParent: parent)
-        if parent != nil {
-//            checkupAuthorization()
-        }
-    }
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+        session.startRunning()
+        isScaning = true;
     }
     @objc func handleBtnClick(sender: UIButton) -> Void {
         MQPrintLog(message: "调取相册")
@@ -90,6 +84,7 @@ extension MQScanHomeVC {
         self.navigationItem.rightBarButtonItem = rightItem
         self.navigationItem.title = "二维码/条码"
         flashControlView.isHidden = true
+//        scanMaskView.
     }
     func checkupAuthorization() -> Void {
         if saveCheckStatus == .authorized {
@@ -126,8 +121,7 @@ extension MQScanHomeVC {
     }
     func shouldScan() -> Void {
         if !isScaning {
-           
-                self.startScan()
+            self.startScan()
         }
     }
     func startScan() -> Void {
@@ -165,7 +159,7 @@ extension MQScanHomeVC {
         output.rectOfInterest = CGRect(x: y, y: x, width: height, height: width)
         
         //4 启动会话 （让输入开始采集数据，输出对象处理数据）
-        session.startRunning()
+//        session.startRunning()
     }
 }
 extension MQScanHomeVC: AVCaptureMetadataOutputObjectsDelegate {

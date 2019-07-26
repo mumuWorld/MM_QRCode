@@ -94,10 +94,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xr6-NW-MXV" customClass="MQScanMarkView" customModule="MMQRCode" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T49-Xc-0JC">
                                 <rect key="frame" x="74.5" y="265.5" width="265" height="265"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="scan_border_img" translatesAutoresizingMaskIntoConstraints="NO" id="yCG-LI-th7">
+                                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="scan_border_img" translatesAutoresizingMaskIntoConstraints="NO" id="yCG-LI-th7">
                                         <rect key="frame" x="0.0" y="0.0" width="265" height="265"/>
                                     </imageView>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="scan_line_img" translatesAutoresizingMaskIntoConstraints="NO" id="20f-Al-uJH">
@@ -157,7 +161,11 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
                             <constraint firstItem="T49-Xc-0JC" firstAttribute="centerX" secondItem="WCT-HX-8ED" secondAttribute="centerX" id="4CD-YG-PSs"/>
+                            <constraint firstItem="xr6-NW-MXV" firstAttribute="trailing" secondItem="guS-of-OcQ" secondAttribute="trailing" id="Ecr-eO-o3E"/>
+                            <constraint firstItem="xr6-NW-MXV" firstAttribute="top" secondItem="WCT-HX-8ED" secondAttribute="top" id="QPl-b2-3iu"/>
+                            <constraint firstItem="xr6-NW-MXV" firstAttribute="leading" secondItem="guS-of-OcQ" secondAttribute="leading" id="ZOy-Zq-Szb"/>
                             <constraint firstItem="T49-Xc-0JC" firstAttribute="centerY" secondItem="WCT-HX-8ED" secondAttribute="centerY" constant="-50" id="m3C-jU-IiT"/>
+                            <constraint firstAttribute="bottom" secondItem="xr6-NW-MXV" secondAttribute="bottom" id="o3u-4d-egN"/>
                             <constraint firstItem="T49-Xc-0JC" firstAttribute="width" secondItem="WCT-HX-8ED" secondAttribute="width" multiplier="240:375" id="vzj-Vl-BZN"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="guS-of-OcQ"/>
@@ -169,6 +177,7 @@
                         <outlet property="scanBgView" destination="T49-Xc-0JC" id="rcC-eY-ekE"/>
                         <outlet property="scanLineImgView" destination="20f-Al-uJH" id="AVq-MO-Zxk"/>
                         <outlet property="scanLineImg_bottom" destination="7Rm-CU-OA6" id="1Xo-g2-0fM"/>
+                        <outlet property="scanMaskView" destination="xr6-NW-MXV" id="i5e-Ah-bmT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9th-TE-9Oz" userLabel="First Responder" sceneMemberID="firstResponder"/>
