@@ -51,10 +51,14 @@ class MQScanHomeVC: MQBaseViewController {
         }
     }
     var saveCheckStatus:AVAuthorizationStatus?
-        
+    lazy var scanTool:MQScanTool = {
+        let tool = MQScanTool()
+        return tool
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.white
+        self.view.backgroundColor = UIColor.black
         saveCheckStatus = .notDetermined
         setupSubViews()
         checkupAuthorization()
@@ -67,12 +71,31 @@ class MQScanHomeVC: MQBaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.setNavigationBarAlpha()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         startScanAnimation()
     }
     @objc func handleBtnClick(sender: UIButton) -> Void {
         MQPrintLog(message: "调取相册")
+        self.checkPhotoLibraryPermission(authorizedBlock: { (success) in
+            let pickerVC = UIImagePickerController()
+            pickerVC.delegate = self
+            pickerVC.sourceType = .savedPhotosAlbum
+            self.navigationController?.present(pickerVC, animated: true, completion: nil)
+        }) { (deninit) in
+            self.showSettingAlert(content: "需要开启访问相册权限")
+        }
+//        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+//
+//        let pickerVC = UIImagePickerController()
+//        pickerVC.delegate = self
+//        pickerVC.sourceType = .photoLibrary
+//        self.navigationController?.present(pickerVC, animated: true, completion: nil)
+//        } else {
+//            self.showSettingAlert(content: "需要开启访问相册权限")
+//        }
     }
-    
     func startScanAnimation() -> Void {
         session.startRunning()
         scanMaskView.startScanAnimation()
@@ -84,9 +107,11 @@ class MQScanHomeVC: MQBaseViewController {
         isScaning = false;
     }
 }
+
+// MARK: - 工具方法
 extension MQScanHomeVC {
-    func showSettingAlert() -> Void {
-        let alert = UIAlertController.alert(title: "提示", content: "需要开启相机权限才能进行扫描", confirmTitle: "去设置", confirmHandler: { (_) in
+    func showSettingAlert(content: String) -> Void {
+        let alert = UIAlertController.alert(title: "提示", content: content, confirmTitle: "去设置", confirmHandler: { (_) in
             let settingUrl = URL(string: UIApplication.openSettingsURLString)
             if UIApplication.shared.canOpenURL(settingUrl!) {
                 UIApplication.shared.openURL(settingUrl!)
@@ -106,7 +131,7 @@ extension MQScanHomeVC {
             shouldScan()
             return
         } else if saveCheckStatus == AVAuthorizationStatus.denied {
-            showSettingAlert()
+            showSettingAlert(content: "需要开启相机权限才能进行扫描")
             return
         }
         saveCheckStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
@@ -119,17 +144,16 @@ extension MQScanHomeVC {
                      DispatchQueue.main.async {
                     self.shouldScan()
                     }
-                    
                 } else {
                     self.saveCheckStatus = .denied
-                    self.showSettingAlert()
+                    self.showSettingAlert(content: "需要开启相机权限才能进行扫描")
                 }
 //                self.cameraPermissions(authorizedBlock: authorizedBlock, deniedBlock: deniedBlock)
             })
         } else if saveCheckStatus == AVAuthorizationStatus.authorized {
             MQPrintLog(message: "status=\(saveCheckStatus!.rawValue)")
         } else {
-            showSettingAlert()
+            showSettingAlert(content: "需要开启相机权限才能进行扫描")
             return
         }
         shouldScan()
@@ -160,8 +184,9 @@ extension MQScanHomeVC {
         output.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
         //3.2 添加视频预览图层
         preLayer.frame = self.view.bounds
-        self.preview.layer.insertSublayer(preLayer, at: 0)
-//        self.scanMaskView.layer.insertSublayer(preLayer, at: 0)
+        UIView.animate(withDuration: 0.5) {
+            self.preview.layer.insertSublayer(self.preLayer, at: 0)
+        }
         //3.3 设置兴趣区域
         // 注意, 此处需要填的rect, 是以右上角为(0, 0), 也就是横屏状态
         // 值域范围: 0->1
@@ -179,6 +204,31 @@ extension MQScanHomeVC {
         
         //4 启动会话 （让输入开始采集数据，输出对象处理数据）
 //        session.startRunning()
+    }
+    func checkPhotoLibraryPermission(authorizedBlock: ((PHAuthorizationStatus) -> Void)?, deniedBlock: ((PHAuthorizationStatus) -> Void)?) -> Void {
+        let authStatus = PHPhotoLibrary.authorizationStatus()
+        if authStatus == .notDetermined {
+            // 第一次触发授权 alert
+            PHPhotoLibrary.requestAuthorization { (status:PHAuthorizationStatus) -> Void in
+                if status == .authorized  {
+                    if authorizedBlock != nil {
+                        authorizedBlock!(status)
+                    }
+                } else {
+                    if deniedBlock != nil {
+                        deniedBlock!(status)
+                    }
+                }
+            }
+        } else if authStatus == .authorized  {
+            if authorizedBlock != nil {
+                authorizedBlock!(authStatus)
+            }
+        } else {
+            if deniedBlock != nil {
+                deniedBlock!(authStatus)
+            }
+        }
     }
 }
 extension MQScanHomeVC: AVCaptureMetadataOutputObjectsDelegate {
@@ -236,6 +286,21 @@ extension MQScanHomeVC: AVCaptureMetadataOutputObjectsDelegate {
             if layer.isKind(of: CAShapeLayer.self) {
                 layer.removeFromSuperlayer()
             }
+        }
+    }
+}
+
+// MARK: - UIImagePickerControllerDelegate & UINavigationControllerDelegate
+extension MQScanHomeVC: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        
+        let source = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        self.scanTool.scanImg(sourceImg: source, successResult: { (result: [String]) in
+            
+        }) { [weak self] (failed) in
+            let alert = UIAlertController.alertOnlyConfirm(title: "提示", content: failed, confirmTitle: "确定")
+            self?.navigationController?.present(alert, animated: true, completion: nil)
         }
     }
 }

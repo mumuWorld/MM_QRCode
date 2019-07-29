@@ -12,13 +12,13 @@ extension UIViewController {
     func setNavigationBarAlpha() -> Void {
         if self.navigationController != nil {
             self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-            self.navigationController?.navigationBar.shadowImage = UIImage()
+//            self.navigationController?.navigationBar.shadowImage = UIImage()
         }
     }
     func recoverNavigationBar() -> Void {
         if self.navigationController != nil {
             self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
-            self.navigationController?.navigationBar.shadowImage = nil
+//            self.navigationController?.navigationBar.shadowImage = nil
         }
     }
 }

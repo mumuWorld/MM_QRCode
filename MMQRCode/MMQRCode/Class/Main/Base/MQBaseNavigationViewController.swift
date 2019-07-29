@@ -16,7 +16,9 @@ class MQBaseNavigationViewController: UINavigationController {
         self.navigationBar.shadowImage = UIImage()
         self.interactivePopGestureRecognizer?.delegate = self as UIGestureRecognizerDelegate
     }
-
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//    }
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         if viewControllers.count >= 1 {
             viewController.hidesBottomBarWhenPushed = true

@@ -47,6 +47,12 @@ class MQScanMarkView: UIView {
     var flashStatusBtn: UIButton?
     var flashStatusLabel: UILabel?
     
+    lazy var auctionLabel: UILabel = {
+        let label = UILabel.labelWith(title: "将二维码/条码放入框内，即可自动扫描", titleColor: UIColor.mm_color(red: 153, green: 153, blue: 153, alpha: 1.0), font: UIFont.systemFont(ofSize: 12), alignment: NSTextAlignment.center)
+        label.mm_y = self.scanRetangleRect!.maxY + 10
+        label.mm_centerX = self.mm_width * 0.5
+        return label
+    }()
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = UIColor.mm_color(red: 0, green: 0, blue: 0, alpha: 0)
@@ -76,6 +82,7 @@ class MQScanMarkView: UIView {
         // Drawing code
         drawScanRect()
         addSubview(self.scanLineImg)
+        addSubview(self.auctionLabel)
     }
     func drawScanRect() -> Void {
         let sizeRetangle = scanRetangleRect?.size

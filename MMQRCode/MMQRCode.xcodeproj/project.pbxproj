@@ -28,6 +28,7 @@
 		DF0361F022EB1BC5000B4C24 /* MQScanMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0361EF22EB1BC5000B4C24 /* MQScanMarkView.swift */; };
 		DF47EED022EEE7CB006EA435 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF47EECF22EEE7CB006EA435 /* UIViewController+Extension.swift */; };
 		DF47EED222EEEEEF006EA435 /* MQScanResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF47EED122EEEEEF006EA435 /* MQScanResultVC.swift */; };
+		DF47EED622EF0C0C006EA435 /* MQScanTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF47EED522EF0C0C006EA435 /* MQScanTool.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,7 @@
 		DF0361EF22EB1BC5000B4C24 /* MQScanMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQScanMarkView.swift; sourceTree = "<group>"; };
 		DF47EECF22EEE7CB006EA435 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		DF47EED122EEEEEF006EA435 /* MQScanResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQScanResultVC.swift; sourceTree = "<group>"; };
+		DF47EED522EF0C0C006EA435 /* MQScanTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQScanTool.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,6 +227,7 @@
 		DF0361E522EA8F00000B4C24 /* Scan */ = {
 			isa = PBXGroup;
 			children = (
+				DF47EED422EEFDB2006EA435 /* Tool */,
 				DF47EED322EEEEFA006EA435 /* View */,
 				DF0361E622EA9894000B4C24 /* MQScanHomeVC.swift */,
 				DF47EED122EEEEEF006EA435 /* MQScanResultVC.swift */,
@@ -261,6 +264,14 @@
 				DF0361EF22EB1BC5000B4C24 /* MQScanMarkView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		DF47EED422EEFDB2006EA435 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				DF47EED522EF0C0C006EA435 /* MQScanTool.swift */,
+			);
+			path = Tool;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -408,6 +419,7 @@
 				DF0361D522E9B511000B4C24 /* MQTabbarController.swift in Sources */,
 				DF0361F022EB1BC5000B4C24 /* MQScanMarkView.swift in Sources */,
 				DF0361C522E82531000B4C24 /* UIKit+Extension.swift in Sources */,
+				DF47EED622EF0C0C006EA435 /* MQScanTool.swift in Sources */,
 				DF03619222E8240E000B4C24 /* AppDelegate.swift in Sources */,
 				DF0361E722EA9894000B4C24 /* MQScanHomeVC.swift in Sources */,
 				DF0361C622E82531000B4C24 /* UIColor+MM_Extension.swift in Sources */,
