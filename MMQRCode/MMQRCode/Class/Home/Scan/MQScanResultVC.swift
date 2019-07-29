@@ -9,6 +9,8 @@
 import UIKit
 
 class MQScanResultVC: MQBaseViewController {
+    var resultData: [String]?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white

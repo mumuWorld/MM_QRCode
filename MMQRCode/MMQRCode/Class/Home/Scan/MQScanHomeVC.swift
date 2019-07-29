@@ -236,6 +236,7 @@ extension MQScanHomeVC: AVCaptureMetadataOutputObjectsDelegate {
         //画之前 ，移除上一次绘制的 frame
         removeQRcodeFrame()
         //直接要第一个
+//        wxp://f2f0mmJRwn23YosIHu4CWtasONMV1oTMoLDg
         
         //遍历输出数组
         for metaObject in metadataObjects {
