@@ -13,13 +13,16 @@ import Photos
 class MQScanHomeVC: MQBaseViewController {
 //    private var _rightItem: UIBarButtonItem?
     
-    @IBOutlet weak var scanBgView: UIView!
-    @IBOutlet weak var scanLineImgView: UIImageView!
-    @IBOutlet weak var scanLineImg_bottom: NSLayoutConstraint!
+    var scanBgView: UIView!
+    var scanLineImgView: UIImageView!
+    var scanLineImg_bottom: NSLayoutConstraint!
     
-    @IBOutlet weak var flashControlView: UIView!
-    @IBOutlet weak var flashStatusBtn: UIButton!
-    @IBOutlet weak var flashStatusLabel: UILabel!
+    lazy var preview: UIView = {
+        let pre = UIView()
+        pre.frame = self.view.bounds
+        return pre
+    }()
+    
     
     var isScaning:Bool = false
     
@@ -32,7 +35,15 @@ class MQScanHomeVC: MQBaseViewController {
         return AVCaptureVideoPreviewLayer(session: session)
     }()
     
-    @IBOutlet weak var scanMaskView: MQScanMarkView!
+    lazy var scanMaskView: MQScanMarkView = {
+        let scanMaskView = MQScanMarkView()
+        let padding: CGFloat = 44.0;
+        let width = MQScreenWidth - padding * 2
+        scanMaskView.scanRetangleRect = CGRect(x: padding, y: CGFloat(MQNavigationBarHeight + 100.0), width: width, height: width)
+        scanMaskView.frame = self.view.bounds
+        scanMaskView.photoframeLineW = 2;
+        return scanMaskView
+    }()
     var rightItem: UIBarButtonItem {
         get {
             let _rightItem = UIBarButtonItem.barButtomItem(title: "相册", selectedTitle: nil, titleColor: MQMainColor, selectedColor: nil, image: nil, selectedImg: nil, target: self, selecter: #selector(handleBtnClick(sender:)))
@@ -43,31 +54,34 @@ class MQScanHomeVC: MQBaseViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.black
+        self.view.backgroundColor = UIColor.white
         saveCheckStatus = .notDetermined
         setupSubViews()
         checkupAuthorization()
     }
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-////        checkupAuthorization()
-//    }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        session.stopRunning()
-        isScaning = false;
+        recoverNavigationBar()
+        stopScanAnimation()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        session.startRunning()
-        isScaning = true;
+        self.setNavigationBarAlpha()
+        startScanAnimation()
     }
     @objc func handleBtnClick(sender: UIButton) -> Void {
         MQPrintLog(message: "调取相册")
     }
     
-    @IBAction func tapGesture(_ sender: UITapGestureRecognizer) {
-        //开启 or 关闭
+    func startScanAnimation() -> Void {
+        session.startRunning()
+        scanMaskView.startScanAnimation()
+        isScaning = true;
+    }
+    func stopScanAnimation() -> Void {
+        session.stopRunning()
+        scanMaskView.stopScanAnimation()
+        isScaning = false;
     }
 }
 extension MQScanHomeVC {
@@ -82,9 +96,10 @@ extension MQScanHomeVC {
     }
     func setupSubViews() -> Void {
         self.navigationItem.rightBarButtonItem = rightItem
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         self.navigationItem.title = "二维码/条码"
-        flashControlView.isHidden = true
-//        scanMaskView.
+        self.view.addSubview(self.preview);
+        self.view.addSubview(self.scanMaskView)
     }
     func checkupAuthorization() -> Void {
         if saveCheckStatus == .authorized {
@@ -145,17 +160,21 @@ extension MQScanHomeVC {
         output.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
         //3.2 添加视频预览图层
         preLayer.frame = self.view.bounds
-        self.view.layer.insertSublayer(preLayer, at: 0)
+        self.preview.layer.insertSublayer(preLayer, at: 0)
+//        self.scanMaskView.layer.insertSublayer(preLayer, at: 0)
         //3.3 设置兴趣区域
         // 注意, 此处需要填的rect, 是以右上角为(0, 0), 也就是横屏状态
         // 值域范围: 0->1
         let sWidth = MQScreenWidth
         let sHeight = MQScreenHeight
-        let x = scanBgView.mm_x/sWidth
-        let y = scanBgView.mm_y/sHeight
-        let width = scanBgView.mm_width/sWidth
-        let height = scanBgView.mm_height/sHeight
+        let x = 30.0/sWidth
+        let y = CGFloat(MQNavigationBarHeight + 100)/sHeight
+        let widthT = MQScreenWidth - 30 * 2.0
         
+        let width = widthT/sWidth
+        let height = widthT/sHeight
+        //设置采集扫描区域的比例 默认全屏是（0，0，1，1）
+        //rectOfInterest 填写的是一个比例，输出流视图preview.frame为 x , y, w, h, 要设置的矩形快的scanFrame 为 x1, y1, w1, h1. 那么rectOfInterest 应该设置为 CGRectMake(y1/y, x1/x, h1/h, w1/w)。
         output.rectOfInterest = CGRect(x: y, y: x, width: height, height: width)
         
         //4 启动会话 （让输入开始采集数据，输出对象处理数据）
@@ -166,6 +185,8 @@ extension MQScanHomeVC: AVCaptureMetadataOutputObjectsDelegate {
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         //画之前 ，移除上一次绘制的 frame
         removeQRcodeFrame()
+        //直接要第一个
+        
         //遍历输出数组
         for metaObject in metadataObjects {
             if metaObject.isKind(of: AVMetadataMachineReadableCodeObject.self) {

@@ -67,4 +67,11 @@ extension UIColor {
             return UIColor.clear
         }
     }
+    class func mm_color(red: CGFloat = 0.0,green: CGFloat = 0,blue: CGFloat = 0,alpha: CGFloat = 1.0) -> UIColor {
+        if #available(iOS 10.0, *) {
+            return UIColor(displayP3Red: red, green: green, blue: blue, alpha: alpha)
+        } else {
+            return UIColor(red: red, green: green, blue: blue, alpha: alpha)
+        }
+    }
 }

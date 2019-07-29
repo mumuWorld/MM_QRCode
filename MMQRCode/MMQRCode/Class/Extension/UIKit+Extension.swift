@@ -94,3 +94,85 @@ extension UIView {
         }
     }
 }
+
+extension CGRect {
+    var mm_y: CGFloat {
+        get {
+            return self.origin.y
+        }
+        set {
+            origin.y = newValue
+        }
+    }
+    var mm_x: CGFloat {
+        get {
+            return self.origin.x
+        }
+        set {
+            origin.x = newValue
+        }
+    }
+    var mm_height: CGFloat {
+        get {
+            return self.size.height
+        }
+        set {
+            size.height = newValue
+        }
+    }
+    var mm_width: CGFloat {
+        get {
+            return self.size.width
+        }
+        set {
+            size.width = newValue
+        }
+    }
+}
+
+extension UIButton {
+    class func buttonWith(title: String?, selectedTitle: String?, titleColor: UIColor?, selectedColor: UIColor?, image: String?, selectedImg: String?, target: Any?, selecter: Selector?, tag: UInt = 10) ->UIButton {
+        let button = UIButton(type: .custom)
+        if let tmpTit = title {
+            button .setTitle(tmpTit, for: .normal)
+            if let tmpColor = titleColor {
+                button.setTitleColor(tmpColor, for: .normal)
+            }
+        }
+        if let tmpTit = selectedTitle {
+            if let tmpColor = selectedColor {
+                button.setTitleColor(tmpColor, for: .selected)
+            }
+            button .setTitle(tmpTit, for: .selected)
+        }
+        if let tmpImg = image {
+            button.setImage(UIImage.init(named: tmpImg), for: .normal)
+        }
+        if let tmpImg = selectedImg {
+            button.setImage(UIImage.init(named: tmpImg), for: .selected)
+        }
+        if let tmpTarget = target,let tmpSel = selecter {
+            button.addTarget(tmpTarget, action: tmpSel, for: .touchUpInside)
+        }
+        button.tag = Int(bitPattern: tag)
+        return button
+    }
+}
+
+extension UILabel {
+    class func labelWith(title: String?, titleColor: UIColor?, font: UIFont?, alignment: NSTextAlignment = NSTextAlignment.left) -> UILabel {
+        let label = UILabel(frame: CGRect.zero)
+        if let titleT = title {
+            label.text = titleT
+        }
+        if let colorT = titleColor {
+            label.textColor = colorT
+        }
+        if let fontT = font {
+            label.font = fontT
+        }
+        label.textAlignment = alignment
+        label.sizeToFit()
+        return label
+    }
+}

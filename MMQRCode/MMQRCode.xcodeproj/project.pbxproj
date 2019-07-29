@@ -26,6 +26,8 @@
 		DF0361E922EA9A7D000B4C24 /* UIBarButtonItem+MM_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0361E822EA9A7D000B4C24 /* UIBarButtonItem+MM_Extension.swift */; };
 		DF0361EE22EADEF6000B4C24 /* UIAlert+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0361ED22EADEF6000B4C24 /* UIAlert+Extension.swift */; };
 		DF0361F022EB1BC5000B4C24 /* MQScanMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0361EF22EB1BC5000B4C24 /* MQScanMarkView.swift */; };
+		DF47EED022EEE7CB006EA435 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF47EECF22EEE7CB006EA435 /* UIViewController+Extension.swift */; };
+		DF47EED222EEEEEF006EA435 /* MQScanResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF47EED122EEEEEF006EA435 /* MQScanResultVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +73,8 @@
 		DF0361E822EA9A7D000B4C24 /* UIBarButtonItem+MM_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+MM_Extension.swift"; sourceTree = "<group>"; };
 		DF0361ED22EADEF6000B4C24 /* UIAlert+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlert+Extension.swift"; sourceTree = "<group>"; };
 		DF0361EF22EB1BC5000B4C24 /* MQScanMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQScanMarkView.swift; sourceTree = "<group>"; };
+		DF47EECF22EEE7CB006EA435 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		DF47EED122EEEEEF006EA435 /* MQScanResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQScanResultVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +172,7 @@
 				DF0361C322E82531000B4C24 /* UIKit+Extension.swift */,
 				DF0361C422E82531000B4C24 /* UIColor+MM_Extension.swift */,
 				DF0361E822EA9A7D000B4C24 /* UIBarButtonItem+MM_Extension.swift */,
+				DF47EECF22EEE7CB006EA435 /* UIViewController+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -220,8 +225,9 @@
 		DF0361E522EA8F00000B4C24 /* Scan */ = {
 			isa = PBXGroup;
 			children = (
+				DF47EED322EEEEFA006EA435 /* View */,
 				DF0361E622EA9894000B4C24 /* MQScanHomeVC.swift */,
-				DF0361EF22EB1BC5000B4C24 /* MQScanMarkView.swift */,
+				DF47EED122EEEEEF006EA435 /* MQScanResultVC.swift */,
 			);
 			path = Scan;
 			sourceTree = "<group>";
@@ -247,6 +253,14 @@
 			children = (
 			);
 			path = Component;
+			sourceTree = "<group>";
+		};
+		DF47EED322EEEEFA006EA435 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DF0361EF22EB1BC5000B4C24 /* MQScanMarkView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -386,9 +400,11 @@
 				DF0361DA22E9B987000B4C24 /* MQBaseViewController.swift in Sources */,
 				DF0361E922EA9A7D000B4C24 /* UIBarButtonItem+MM_Extension.swift in Sources */,
 				DF0361E422E9C0D0000B4C24 /* MQConstant.swift in Sources */,
+				DF47EED022EEE7CB006EA435 /* UIViewController+Extension.swift in Sources */,
 				DF0361DD22E9B9B2000B4C24 /* MQHomeVC.swift in Sources */,
 				DF0361D722E9B5E0000B4C24 /* MQBaseNavigationViewController.swift in Sources */,
 				DF0361E222E9BC34000B4C24 /* MQImageLabelCVCell.swift in Sources */,
+				DF47EED222EEEEEF006EA435 /* MQScanResultVC.swift in Sources */,
 				DF0361D522E9B511000B4C24 /* MQTabbarController.swift in Sources */,
 				DF0361F022EB1BC5000B4C24 /* MQScanMarkView.swift in Sources */,
 				DF0361C522E82531000B4C24 /* UIKit+Extension.swift in Sources */,

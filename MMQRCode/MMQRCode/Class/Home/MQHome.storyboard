@@ -93,92 +93,9 @@
                     <view key="view" contentMode="scaleToFill" id="WCT-HX-8ED">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xr6-NW-MXV" customClass="MQScanMarkView" customModule="MMQRCode" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T49-Xc-0JC">
-                                <rect key="frame" x="74.5" y="265.5" width="265" height="265"/>
-                                <subviews>
-                                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="scan_border_img" translatesAutoresizingMaskIntoConstraints="NO" id="yCG-LI-th7">
-                                        <rect key="frame" x="0.0" y="0.0" width="265" height="265"/>
-                                    </imageView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="scan_line_img" translatesAutoresizingMaskIntoConstraints="NO" id="20f-Al-uJH">
-                                        <rect key="frame" x="0.0" y="0.0" width="265" height="265"/>
-                                    </imageView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Icf-32-tow">
-                                        <rect key="frame" x="87" y="197" width="91" height="60"/>
-                                        <subviews>
-                                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BXD-kX-fuN">
-                                                <rect key="frame" x="30.5" y="8" width="30" height="30"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="30" id="OQo-Sj-GGS"/>
-                                                    <constraint firstAttribute="height" constant="30" id="Rac-42-H3Q"/>
-                                                </constraints>
-                                                <state key="normal" image="flash_close_btn"/>
-                                                <state key="selected" image="flash_open_btn"/>
-                                            </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="轻触打开" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vjE-qO-SXA">
-                                                <rect key="frame" x="0.0" y="42" width="91" height="18"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <gestureRecognizers/>
-                                        <constraints>
-                                            <constraint firstItem="BXD-kX-fuN" firstAttribute="centerX" secondItem="Icf-32-tow" secondAttribute="centerX" id="1Hq-Qh-FZG"/>
-                                            <constraint firstAttribute="bottom" secondItem="vjE-qO-SXA" secondAttribute="bottom" id="6Gu-ip-StX"/>
-                                            <constraint firstItem="BXD-kX-fuN" firstAttribute="top" secondItem="Icf-32-tow" secondAttribute="top" constant="8" id="Eq5-GQ-cD1"/>
-                                            <constraint firstAttribute="width" constant="91" id="QJr-UK-7Jd"/>
-                                            <constraint firstAttribute="trailing" secondItem="vjE-qO-SXA" secondAttribute="trailing" id="UcV-iE-WYA"/>
-                                            <constraint firstAttribute="height" constant="60" id="tm4-ug-KJJ"/>
-                                            <constraint firstItem="vjE-qO-SXA" firstAttribute="leading" secondItem="Icf-32-tow" secondAttribute="leading" id="wgl-5I-W7t"/>
-                                        </constraints>
-                                        <connections>
-                                            <outletCollection property="gestureRecognizers" destination="M8l-oF-jm0" appends="YES" id="MB2-pA-few"/>
-                                        </connections>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="yCG-LI-th7" secondAttribute="trailing" id="6yE-xS-7AV"/>
-                                    <constraint firstAttribute="bottom" secondItem="20f-Al-uJH" secondAttribute="bottom" id="7Rm-CU-OA6"/>
-                                    <constraint firstItem="yCG-LI-th7" firstAttribute="leading" secondItem="T49-Xc-0JC" secondAttribute="leading" id="7fT-UM-hVj"/>
-                                    <constraint firstItem="Icf-32-tow" firstAttribute="centerX" secondItem="T49-Xc-0JC" secondAttribute="centerX" id="Bw7-Ab-H3L"/>
-                                    <constraint firstItem="20f-Al-uJH" firstAttribute="leading" secondItem="yCG-LI-th7" secondAttribute="leading" id="PQL-tj-dPx"/>
-                                    <constraint firstItem="20f-Al-uJH" firstAttribute="width" secondItem="yCG-LI-th7" secondAttribute="width" id="XlA-9F-ZeO"/>
-                                    <constraint firstAttribute="bottom" secondItem="yCG-LI-th7" secondAttribute="bottom" id="eA5-kE-83U"/>
-                                    <constraint firstAttribute="bottom" secondItem="Icf-32-tow" secondAttribute="bottom" constant="8" id="qox-P6-F32"/>
-                                    <constraint firstItem="20f-Al-uJH" firstAttribute="height" secondItem="yCG-LI-th7" secondAttribute="height" id="tIc-r5-f8q"/>
-                                    <constraint firstAttribute="height" secondItem="T49-Xc-0JC" secondAttribute="width" multiplier="250:250" id="tqq-aS-sQX"/>
-                                    <constraint firstItem="yCG-LI-th7" firstAttribute="top" secondItem="T49-Xc-0JC" secondAttribute="top" id="wlF-nU-qnK"/>
-                                </constraints>
-                            </view>
-                        </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <constraints>
-                            <constraint firstItem="T49-Xc-0JC" firstAttribute="centerX" secondItem="WCT-HX-8ED" secondAttribute="centerX" id="4CD-YG-PSs"/>
-                            <constraint firstItem="xr6-NW-MXV" firstAttribute="trailing" secondItem="guS-of-OcQ" secondAttribute="trailing" id="Ecr-eO-o3E"/>
-                            <constraint firstItem="xr6-NW-MXV" firstAttribute="top" secondItem="WCT-HX-8ED" secondAttribute="top" id="QPl-b2-3iu"/>
-                            <constraint firstItem="xr6-NW-MXV" firstAttribute="leading" secondItem="guS-of-OcQ" secondAttribute="leading" id="ZOy-Zq-Szb"/>
-                            <constraint firstItem="T49-Xc-0JC" firstAttribute="centerY" secondItem="WCT-HX-8ED" secondAttribute="centerY" constant="-50" id="m3C-jU-IiT"/>
-                            <constraint firstAttribute="bottom" secondItem="xr6-NW-MXV" secondAttribute="bottom" id="o3u-4d-egN"/>
-                            <constraint firstItem="T49-Xc-0JC" firstAttribute="width" secondItem="WCT-HX-8ED" secondAttribute="width" multiplier="240:375" id="vzj-Vl-BZN"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="guS-of-OcQ"/>
                     </view>
-                    <connections>
-                        <outlet property="flashControlView" destination="Icf-32-tow" id="yVa-9A-lqk"/>
-                        <outlet property="flashStatusBtn" destination="BXD-kX-fuN" id="CBj-j0-nEq"/>
-                        <outlet property="flashStatusLabel" destination="vjE-qO-SXA" id="PMb-ws-eas"/>
-                        <outlet property="scanBgView" destination="T49-Xc-0JC" id="rcC-eY-ekE"/>
-                        <outlet property="scanLineImgView" destination="20f-Al-uJH" id="AVq-MO-Zxk"/>
-                        <outlet property="scanLineImg_bottom" destination="7Rm-CU-OA6" id="1Xo-g2-0fM"/>
-                        <outlet property="scanMaskView" destination="xr6-NW-MXV" id="i5e-Ah-bmT"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9th-TE-9Oz" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="M8l-oF-jm0">
@@ -190,10 +107,4 @@
             <point key="canvasLocation" x="1568.1159420289857" y="128.57142857142856"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="flash_close_btn" width="48" height="48"/>
-        <image name="flash_open_btn" width="48" height="48"/>
-        <image name="scan_border_img" width="200" height="200"/>
-        <image name="scan_line_img" width="200" height="200"/>
-    </resources>
 </document>

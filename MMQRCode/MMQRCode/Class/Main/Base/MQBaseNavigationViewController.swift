@@ -12,7 +12,8 @@ class MQBaseNavigationViewController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        //隐藏底部线
+        self.navigationBar.shadowImage = UIImage()
         self.interactivePopGestureRecognizer?.delegate = self as UIGestureRecognizerDelegate
     }
 
