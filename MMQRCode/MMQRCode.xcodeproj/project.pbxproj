@@ -32,6 +32,8 @@
 		DF47EED022EEE7CB006EA435 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF47EECF22EEE7CB006EA435 /* UIViewController+Extension.swift */; };
 		DF47EED222EEEEEF006EA435 /* MQScanResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF47EED122EEEEEF006EA435 /* MQScanResultVC.swift */; };
 		DF47EED622EF0C0C006EA435 /* MQScanTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF47EED522EF0C0C006EA435 /* MQScanTool.swift */; };
+		DF515F5E22F403F70012FFFC /* MQWKWebCV.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF515F5D22F403F70012FFFC /* MQWKWebCV.swift */; };
+		DF515F6122F40C370012FFFC /* MQRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF515F6022F40C370012FFFC /* MQRouter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +90,8 @@
 		DF47EECF22EEE7CB006EA435 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		DF47EED122EEEEEF006EA435 /* MQScanResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQScanResultVC.swift; sourceTree = "<group>"; };
 		DF47EED522EF0C0C006EA435 /* MQScanTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQScanTool.swift; sourceTree = "<group>"; };
+		DF515F5D22F403F70012FFFC /* MQWKWebCV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQWKWebCV.swift; sourceTree = "<group>"; };
+		DF515F6022F40C370012FFFC /* MQRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQRouter.swift; sourceTree = "<group>"; };
 		ED8612A8D85CB862A6B1D9BB /* Pods-MMQRCodeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MMQRCodeTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MMQRCodeTests/Pods-MMQRCodeTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -294,6 +298,8 @@
 		DF0361EC22EADEBD000B4C24 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				DF515F5F22F40BE70012FFFC /* Router */,
+				DF515F5C22F403960012FFFC /* WebVC */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -312,6 +318,22 @@
 				DF47EED522EF0C0C006EA435 /* MQScanTool.swift */,
 			);
 			path = Tool;
+			sourceTree = "<group>";
+		};
+		DF515F5C22F403960012FFFC /* WebVC */ = {
+			isa = PBXGroup;
+			children = (
+				DF515F5D22F403F70012FFFC /* MQWKWebCV.swift */,
+			);
+			path = WebVC;
+			sourceTree = "<group>";
+		};
+		DF515F5F22F40BE70012FFFC /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				DF515F6022F40C370012FFFC /* MQRouter.swift */,
+			);
+			path = Router;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -542,6 +564,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF515F6122F40C370012FFFC /* MQRouter.swift in Sources */,
 				DF0361EE22EADEF6000B4C24 /* UIAlert+Extension.swift in Sources */,
 				DF0361DA22E9B987000B4C24 /* MQBaseViewController.swift in Sources */,
 				DF0361E922EA9A7D000B4C24 /* UIBarButtonItem+MM_Extension.swift in Sources */,
@@ -555,6 +578,7 @@
 				DF0361F022EB1BC5000B4C24 /* MQScanMarkView.swift in Sources */,
 				DF0361C522E82531000B4C24 /* UIKit+Extension.swift in Sources */,
 				DF47EED622EF0C0C006EA435 /* MQScanTool.swift in Sources */,
+				DF515F5E22F403F70012FFFC /* MQWKWebCV.swift in Sources */,
 				DF03619222E8240E000B4C24 /* AppDelegate.swift in Sources */,
 				DF0361E722EA9894000B4C24 /* MQScanHomeVC.swift in Sources */,
 				DF0361C622E82531000B4C24 /* UIColor+MM_Extension.swift in Sources */,

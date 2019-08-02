@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol MQViewLoadSubViewProtocol {
+    func initSubViews() -> Void
+}
+
 extension UIViewController {
     func setNavigationBarAlpha() -> Void {
         if self.navigationController != nil {

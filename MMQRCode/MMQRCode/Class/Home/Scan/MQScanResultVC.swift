@@ -10,7 +10,7 @@ import UIKit
 import IBAnimatable
 
 enum ResultType {
-    case NetPage,WeChat,Alipay,OnlyStr
+    case OnlyStr,NetPage,WeChat,Alipay
 }
 class MQScanResultVC: MQBaseViewController {
     
@@ -24,6 +24,7 @@ class MQScanResultVC: MQBaseViewController {
     
     @IBOutlet weak var handleBtn: AnimatableButton!
     
+    var _resultType:ResultType = .OnlyStr
     
     var rightItem: UIBarButtonItem {
         get {
@@ -45,8 +46,34 @@ class MQScanResultVC: MQBaseViewController {
         }
         
     }
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        naviControllerRemoveScanVC()
+    }
     @IBAction func handleResultClick(_ sender: AnimatableButton) {
-        
+        switch _resultType {
+        case .OnlyStr:
+            break
+        case .NetPage:
+            let web = MQWKWebCV()
+            web.loadingStr = resultContentView.text
+            self.navigationController?.pushViewController(web, animated: true)
+        default:
+            break
+        }
+    }
+    
+    func naviControllerRemoveScanVC() -> Void {
+        var naviArr = self.navigationController?.viewControllers
+//        for i in 0..<navigationController!.viewControllers.count {
+//            let tVC = self.navigationController?.viewControllers[i]
+//            if let vc = tVC {
+        naviArr?.removeAll(where: { (tmpVC) -> Bool in
+            return tmpVC.isKind(of: MQScanHomeVC.self) || tmpVC.isKind(of: MQScanResultVC.self)
+        })
+//            }
+//        }
+        self.navigationController?.viewControllers = naviArr!
     }
 }
 
@@ -74,6 +101,7 @@ extension MQScanResultVC {
         }
     }
     func handleResultType(result: String,type: ResultType) -> Void {
+        _resultType = type
         switch type {
         case .NetPage:
             self.handleBtn.setTitle("打开网址", for: .normal)
