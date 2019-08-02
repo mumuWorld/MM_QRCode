@@ -10,7 +10,17 @@ import UIKit
 import WebKit
 
 class MQWKWebCV: MQBaseViewController {
-    var _wkWebView: WKWebView?
+    lazy var wkWebView: WKWebView = {
+        let _wkWebView = WKWebView(frame: view.bounds)
+        _wkWebView.uiDelegate = self
+        _wkWebView.navigationDelegate = self
+        _wkWebView.isOpaque = false
+        _wkWebView.backgroundColor = UIColor.init(white: 0.0, alpha: 0.0)
+        //        _wkWebView?.scrollView.backgroundColor = UIColor.init(white: 0.0, alpha: 0.0)
+        _wkWebView.scrollView.addObserver(self, forKeyPath: "contentOffset", options: [.new], context: nil)
+        _wkWebView.addObserver(self, forKeyPath: "estimatedProgress", options: [.new], context: nil)
+        return _wkWebView
+    }()
     
     var loadingStr: String?
     
@@ -21,36 +31,31 @@ class MQWKWebCV: MQBaseViewController {
         label.alpha = 0;
         return label
     }()
+    
     lazy var progressView: UIView = {
         let progress = UIView(frame: CGRect(x: 0, y: MQNavigationBarHeight, width: 0, height: 2))
         progress.backgroundColor = MQMainColor
         return progress
     }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         initSubViews()
         loadingUrl()
     }
+    
     deinit {
-        _wkWebView?.scrollView.removeObserver(self, forKeyPath: "contentOffset")
-        _wkWebView?.removeObserver(self, forKeyPath: "estimatedProgress")
+        wkWebView.scrollView.removeObserver(self, forKeyPath: "contentOffset")
+        wkWebView.removeObserver(self, forKeyPath: "estimatedProgress")
 
     }
 }
 
 extension MQWKWebCV: MQViewLoadSubViewProtocol {
+    
     func initSubViews() {
-        _wkWebView = WKWebView(frame: view.bounds)
-        _wkWebView?.uiDelegate = self
-        _wkWebView?.navigationDelegate = self
-        _wkWebView?.isOpaque = false
-        _wkWebView?.backgroundColor = UIColor.init(white: 0.0, alpha: 0.0)
-//        _wkWebView?.scrollView.backgroundColor = UIColor.init(white: 0.0, alpha: 0.0)
-        _wkWebView?.scrollView.addObserver(self, forKeyPath: "contentOffset", options: [.new], context: nil)
-        _wkWebView?.addObserver(self, forKeyPath: "estimatedProgress", options: [.new], context: nil)
-
-        view.addSubview(_wkWebView!)
+        view.addSubview(wkWebView)
         
         let url = URL(string: loadingStr!)
         guard let tmpUrl = url else {
@@ -67,16 +72,17 @@ extension MQWKWebCV: MQViewLoadSubViewProtocol {
     }
 }
 extension MQWKWebCV {
+    
     func loadingUrl() -> Void {
         if let str = loadingStr {
             let url = URL(string: str)
             let urlRequest: URLRequest = URLRequest(url: url!)
-            _wkWebView?.load(urlRequest)
-            
+            wkWebView.load(urlRequest)
         } else {
             MQPrintLog(message: "字符串有误")
         }
     }
+    
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         guard let changes = change else {
             return
@@ -102,14 +108,17 @@ extension MQWKWebCV: WKUIDelegate {
     
 }
 extension MQWKWebCV: WKNavigationDelegate {
+    
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         progressView.isHidden = false
         progressView.mm_width = 0
         MQPrintLog(message: "startLoading")
     }
+    
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         decisionHandler(WKNavigationActionPolicy.allow)
     }
+    
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         let deadline = DispatchTime.now() + 0.5
         DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
