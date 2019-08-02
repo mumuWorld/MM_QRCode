@@ -53,6 +53,7 @@ class MQScanResultVC: MQBaseViewController {
     @IBAction func handleResultClick(_ sender: AnimatableButton) {
         switch _resultType {
         case .OnlyStr:
+            UIPasteboard.general.string = resultContentView.text
             break
         case .NetPage:
             let web = MQWKWebCV()
