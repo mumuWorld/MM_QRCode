@@ -14,7 +14,7 @@ class MQScanTool {
         return _dector
     }()
     
-    func scanImg(sourceImg: UIImage?,successResult: (([String]) ->Void)?,failed:((String)->())? ) {
+    func scanImg(sourceImg: UIImage?,successResult: (([String]) ->Void)?,failed:((String)->())?) {
         guard let _sourceImg = sourceImg else {
             if failed != nil {
                 failed!("image 不能为空")

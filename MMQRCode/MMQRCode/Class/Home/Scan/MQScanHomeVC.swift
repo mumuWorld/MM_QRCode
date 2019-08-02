@@ -238,8 +238,24 @@ extension MQScanHomeVC: AVCaptureMetadataOutputObjectsDelegate {
         //直接要第一个
 //        wxp://f2f0mmJRwn23YosIHu4CWtasONMV1oTMoLDg
         if metadataObjects.count > 0 {
-            self.stopScanAnimation()
-            handleResult(metadataObjects: metadataObjects)
+            var resultArr = Array<String>()
+            //遍历输出数组
+            for metaObject in metadataObjects {
+                if metaObject.isKind(of: AVMetadataMachineReadableCodeObject.self) {
+                    let resultObj = preLayer.transformedMetadataObject(for: metaObject)
+                    
+                    let obj = resultObj as! AVMetadataMachineReadableCodeObject
+                    MQPrintLog(message: "message \(obj.stringValue ?? "")")
+                    if let value = obj.stringValue {
+                        resultArr.append(value)
+                    }
+                    //                corners代表二维码的四个角，但是需要预览图层，转换成我们需要的可用的坐标。
+                    //                [(50.52805463348426, 240.47635589036352), (52.81510895931001, 311.85075811638114), (124.59585025601314, 315.18543130468424), (125.05869720092755, 244.04843359876355)]
+                    MQPrintLog(message: "corners: \(obj.corners)")
+                    drawFrame(codeObj: obj)
+                }
+            }
+            handleResult(results: resultArr)
             return
         }
        
@@ -247,7 +263,6 @@ extension MQScanHomeVC: AVCaptureMetadataOutputObjectsDelegate {
     }
     func drawFrame(codeObj:AVMetadataMachineReadableCodeObject) -> Void {
         let corners = codeObj.corners
-        
         //1 借助一个图形层来绘制
         let shapLayer = CAShapeLayer()
         shapLayer.lineWidth = 3
@@ -279,25 +294,9 @@ extension MQScanHomeVC: AVCaptureMetadataOutputObjectsDelegate {
             }
         }
     }
-    func handleResult(metadataObjects: [AVMetadataObject]) -> Void {
-        var resultArr = Array<String>()
-        
-        //遍历输出数组
-        for metaObject in metadataObjects {
-            if metaObject.isKind(of: AVMetadataMachineReadableCodeObject.self) {
-                let resultObj = preLayer.transformedMetadataObject(for: metaObject)
-                
-                let obj = resultObj as! AVMetadataMachineReadableCodeObject
-                MQPrintLog(message: "message \(obj.stringValue ?? "")")
-                if let value = obj.stringValue {
-                    resultArr.append(value)
-                }
-                //                corners代表二维码的四个角，但是需要预览图层，转换成我们需要的可用的坐标。
-                //                [(50.52805463348426, 240.47635589036352), (52.81510895931001, 311.85075811638114), (124.59585025601314, 315.18543130468424), (125.05869720092755, 244.04843359876355)]
-                MQPrintLog(message: "corners: \(obj.corners)")
-                drawFrame(codeObj: obj)
-            }
-        }
+    func handleResult(results: [String]) -> Void {
+        self.stopScanAnimation()
+        let resultArr = results
         if resultArr.count > 0 {
             let resultVC:MQScanResultVC = UIStoryboard(name: "MQHome", bundle: nil).instantiateViewController(withIdentifier: "MQScanResultVC") as! MQScanResultVC
             resultVC.resultData = resultArr
@@ -312,14 +311,17 @@ extension MQScanHomeVC: UIImagePickerControllerDelegate & UINavigationController
         picker.dismiss(animated: true, completion: nil)
         
         let source = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-        self.scanTool.scanImg(sourceImg: source, successResult: { (result: [String]) in
-            
+        self.scanTool.scanImg(sourceImg: source, successResult: { [weak self] (result: [String]) in
+            if result.count > 0 {
+                self?.handleResult(results: result)
+            }
         }) { [weak self] (failed) in
             let alert = UIAlertController.alertOnlyConfirm(title: "提示", content: failed, confirmTitle: "确定")
             self?.navigationController?.present(alert, animated: true, completion: nil)
         }
     }
 }
+
 extension MQScanHomeVC {
     @objc override func naviBarPopItemStyle() -> PopItemStyle {
         return .PopItemWhite
