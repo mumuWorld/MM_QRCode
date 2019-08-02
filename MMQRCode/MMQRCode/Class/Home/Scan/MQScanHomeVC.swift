@@ -237,22 +237,12 @@ extension MQScanHomeVC: AVCaptureMetadataOutputObjectsDelegate {
         removeQRcodeFrame()
         //直接要第一个
 //        wxp://f2f0mmJRwn23YosIHu4CWtasONMV1oTMoLDg
-        
-        //遍历输出数组
-        for metaObject in metadataObjects {
-            if metaObject.isKind(of: AVMetadataMachineReadableCodeObject.self) {
-                let resultObj = preLayer.transformedMetadataObject(for: metaObject)
-                
-                let obj = resultObj as! AVMetadataMachineReadableCodeObject
-                MQPrintLog(message: "message \(obj.stringValue ?? "")")
-                //                corners代表二维码的四个角，但是需要预览图层，转换成我们需要的可用的坐标。
-                //                [(50.52805463348426, 240.47635589036352), (52.81510895931001, 311.85075811638114), (124.59585025601314, 315.18543130468424), (125.05869720092755, 244.04843359876355)]
-                MQPrintLog(message: "corners: \(obj.corners)")
-                
-                drawFrame(codeObj: obj)
-            }
-            
+        if metadataObjects.count > 0 {
+            self.stopScanAnimation()
+            handleResult(metadataObjects: metadataObjects)
+            return
         }
+       
         
     }
     func drawFrame(codeObj:AVMetadataMachineReadableCodeObject) -> Void {
@@ -287,6 +277,31 @@ extension MQScanHomeVC: AVCaptureMetadataOutputObjectsDelegate {
             if layer.isKind(of: CAShapeLayer.self) {
                 layer.removeFromSuperlayer()
             }
+        }
+    }
+    func handleResult(metadataObjects: [AVMetadataObject]) -> Void {
+        var resultArr = Array<String>()
+        
+        //遍历输出数组
+        for metaObject in metadataObjects {
+            if metaObject.isKind(of: AVMetadataMachineReadableCodeObject.self) {
+                let resultObj = preLayer.transformedMetadataObject(for: metaObject)
+                
+                let obj = resultObj as! AVMetadataMachineReadableCodeObject
+                MQPrintLog(message: "message \(obj.stringValue ?? "")")
+                if let value = obj.stringValue {
+                    resultArr.append(value)
+                }
+                //                corners代表二维码的四个角，但是需要预览图层，转换成我们需要的可用的坐标。
+                //                [(50.52805463348426, 240.47635589036352), (52.81510895931001, 311.85075811638114), (124.59585025601314, 315.18543130468424), (125.05869720092755, 244.04843359876355)]
+                MQPrintLog(message: "corners: \(obj.corners)")
+                drawFrame(codeObj: obj)
+            }
+        }
+        if resultArr.count > 0 {
+            let resultVC:MQScanResultVC = UIStoryboard(name: "MQHome", bundle: nil).instantiateViewController(withIdentifier: "MQScanResultVC") as! MQScanResultVC
+            resultVC.resultData = resultArr
+            self.navigationController?.pushViewController(resultVC, animated: true)
         }
     }
 }

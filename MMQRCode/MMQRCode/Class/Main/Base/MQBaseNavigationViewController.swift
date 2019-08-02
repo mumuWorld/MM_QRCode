@@ -14,6 +14,8 @@ class MQBaseNavigationViewController: UINavigationController {
         super.viewDidLoad()
         //隐藏底部线
         self.navigationBar.shadowImage = UIImage()
+        
+        self.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: MQMainTitleColor]
         self.interactivePopGestureRecognizer?.delegate = self as UIGestureRecognizerDelegate
     }
 //    override func viewWillAppear(_ animated: Bool) {
