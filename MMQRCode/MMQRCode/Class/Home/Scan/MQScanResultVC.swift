@@ -9,8 +9,8 @@
 import UIKit
 import IBAnimatable
 
-enum ResultType {
-    case OnlyStr,NetPage,WeChat,Alipay
+enum ResultType: Int {
+    case OnlyStr = 0,NetPage,WeChat,Alipay
 }
 class MQScanResultVC: MQBaseViewController {
     
@@ -23,6 +23,8 @@ class MQScanResultVC: MQBaseViewController {
     @IBOutlet weak var resultContentView: AnimatableTextView!
     
     @IBOutlet weak var handleBtn: AnimatableButton!
+    
+    lazy var resultTool: MQScanResultTool = MQScanResultTool()
     
     var _resultType:ResultType = .OnlyStr
     
@@ -113,5 +115,7 @@ extension MQScanResultVC {
         default:
             break
         }
+        resultTool.saveScanHistory(content: result, type: type.rawValue)
     }
+    
 }

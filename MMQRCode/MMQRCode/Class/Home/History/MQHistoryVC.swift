@@ -26,10 +26,34 @@ class MQHistoryVC: UIViewController {
     
     var createViewList: UITableView?
 
+    let maxPage = 20
+    
+    var currentPage = 0
+    
+    lazy var scanListArr: [MQHistoryScanModel] = Array()
+    lazy var createListArr: [MQHistoryCreateModel] = Array()
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+
         mainScrollView.contentSize = CGSize(width: MQScreenWidth * 2.0, height: MQScreenHeight)
         scrollToIndexView(index: segmentControl.selectedSegmentIndex)
+        
+        let callBack: UpdataCallBack = {[weak self] (results: Array<MQHistoryScanModel>) -> Void in
+            if results.count > 0 {
+                if self?.currentPage == 0 {
+                    self?.scanListArr = results
+                } else {
+                    self?.scanListArr.append(contentsOf: results)
+                }
+            }
+            
+            self?.scanViewList?.reloadData()
+        }
+        self.historyViewModel = MQHistoryViewModel(callback: callBack)
+        historyViewModel?.fetchDBData(page: currentPage, maxPage: maxPage)
+        
 //        self.navigationController?.hidesBarsOnSwipe = true
         // Do any additional setup after loading the view.
     }

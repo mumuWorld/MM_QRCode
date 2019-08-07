@@ -9,16 +9,26 @@
 import UIKit
 
 typealias UpdataCallBack = (Array<MQHistoryScanModel>)->(Void)
+
 class MQHistoryViewModel {
+    
     var scanModel:MQHistoryScanModel?
     
     var updateModelCallBack:UpdataCallBack?
     
+    lazy var resultTool = MQScanResultTool()
     
-    func fetchDBData() -> Void {
+    func fetchDBData(page: Int,maxPage: Int) -> Void {
         
         if let callBack = updateModelCallBack  {
-//            callBack(<#Array<MQHistoryScanModel>#>)
+            let results = resultTool.fetchAll(limit: maxPage, startPage: page)
+            callBack(results)
+        }
+    }
+    
+    init(callback: UpdataCallBack?) {
+        if let back = callback {
+            updateModelCallBack = back
         }
     }
 }

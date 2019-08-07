@@ -9,7 +9,7 @@
 import Foundation
 
 struct MQHistoryScanModel {
-    var createTime: Int?
+    var createTime: String?
     var contentType: Int?
     var scanContent: String?
     var remark: String?
@@ -19,4 +19,5 @@ struct MQHistoryCreateModel {
     var createTime: Int?
     var createType: Int?
     var createContent: String?
+    var remark: String?
 }
