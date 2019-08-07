@@ -67,11 +67,24 @@ extension UIColor {
             return UIColor.clear
         }
     }
+    
     class func mm_color(red: CGFloat = 0.0,green: CGFloat = 0,blue: CGFloat = 0,alpha: CGFloat = 1.0) -> UIColor {
         if #available(iOS 10.0, *) {
             return UIColor(displayP3Red: red, green: green, blue: blue, alpha: alpha)
         } else {
             return UIColor(red: red, green: green, blue: blue, alpha: alpha)
         }
+    }
+    
+    class func mm_colorImgHex(color_vaule : UInt64, alpha : CGFloat = 1) -> UIImage? {
+        let color = UIColor.mm_colorFromHex(color_vaule: color_vaule,alpha: alpha)
+        let rect = CGRect(x: 0.0, y: 0.0, width: 1, height: 1)
+        UIGraphicsBeginImageContext(rect.size)
+        let context = UIGraphicsGetCurrentContext()
+        context?.setFillColor(color.cgColor)
+        context?.fill(rect)
+        let finishImg = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return finishImg
     }
 }

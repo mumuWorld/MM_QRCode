@@ -46,10 +46,12 @@ class MQScanResultVC: MQBaseViewController {
         }
         
     }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         naviControllerRemoveScanVC()
     }
+    
     @IBAction func handleResultClick(_ sender: AnimatableButton) {
         switch _resultType {
         case .OnlyStr:
@@ -80,7 +82,7 @@ class MQScanResultVC: MQBaseViewController {
 
 extension MQScanResultVC {
     @objc func handleBtnClick(sender: UIButton) {
-        
+        MQToastView.show(message: "测试toast")
     }
     func judgeResult(results: [String]) -> Void {
         if results.count > 0 {

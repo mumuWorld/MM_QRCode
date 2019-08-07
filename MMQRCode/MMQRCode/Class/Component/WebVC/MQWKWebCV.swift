@@ -10,6 +10,7 @@ import UIKit
 import WebKit
 
 class MQWKWebCV: MQBaseViewController {
+    
     lazy var wkWebView: WKWebView = {
         let _wkWebView = WKWebView(frame: view.bounds)
         _wkWebView.uiDelegate = self
@@ -48,7 +49,6 @@ class MQWKWebCV: MQBaseViewController {
     deinit {
         wkWebView.scrollView.removeObserver(self, forKeyPath: "contentOffset")
         wkWebView.removeObserver(self, forKeyPath: "estimatedProgress")
-
     }
 }
 

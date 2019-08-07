@@ -72,6 +72,7 @@ class MQScanHomeVC: MQBaseViewController {
         super.viewWillAppear(animated)
         self.setNavigationBarAlpha()
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         startScanAnimation()
@@ -119,6 +120,7 @@ extension MQScanHomeVC {
         }, cancelTitle: "取消", cancelHandler: nil)
         self.navigationController?.present(alert, animated: true, completion: nil)
     }
+    
     func setupSubViews() -> Void {
         self.navigationItem.rightBarButtonItem = rightItem
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
@@ -126,6 +128,7 @@ extension MQScanHomeVC {
         self.view.addSubview(self.preview);
         self.view.addSubview(self.scanMaskView)
     }
+    
     func checkupAuthorization() -> Void {
         if saveCheckStatus == .authorized {
             shouldScan()
@@ -158,11 +161,13 @@ extension MQScanHomeVC {
         }
         shouldScan()
     }
+    
     func shouldScan() -> Void {
         if !isScaning {
             self.startScan()
         }
     }
+    
     func startScan() -> Void {
         //1 设置输入
         let device = AVCaptureDevice.default(for: AVMediaType.video)
@@ -205,6 +210,7 @@ extension MQScanHomeVC {
         //4 启动会话 （让输入开始采集数据，输出对象处理数据）
 //        session.startRunning()
     }
+    
     func checkPhotoLibraryPermission(authorizedBlock: ((PHAuthorizationStatus) -> Void)?, deniedBlock: ((PHAuthorizationStatus) -> Void)?) -> Void {
         let authStatus = PHPhotoLibrary.authorizationStatus()
         if authStatus == .notDetermined {
@@ -296,6 +302,7 @@ extension MQScanHomeVC: AVCaptureMetadataOutputObjectsDelegate {
     }
     func handleResult(results: [String]) -> Void {
         self.stopScanAnimation()
+        removeQRcodeFrame()
         let resultArr = results
         if resultArr.count > 0 {
             let resultVC:MQScanResultVC = UIStoryboard(name: "MQHome", bundle: nil).instantiateViewController(withIdentifier: "MQScanResultVC") as! MQScanResultVC

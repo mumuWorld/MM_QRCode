@@ -197,5 +197,13 @@
             </objects>
             <point key="canvasLocation" x="2469" y="139"/>
         </scene>
+        <!--MQHistoryVC-->
+        <scene sceneID="5k9-ce-YIa">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="MQHistoryVC" storyboardName="MQHistoryVC" referencedIdentifier="MQHistoryVC" id="Pln-Xq-3uI" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ak1-ze-SQC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-311.59420289855075" y="128.57142857142856"/>
+        </scene>
     </scenes>
 </document>

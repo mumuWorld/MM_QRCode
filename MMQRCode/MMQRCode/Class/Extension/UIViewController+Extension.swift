@@ -13,16 +13,37 @@ protocol MQViewLoadSubViewProtocol {
 }
 
 extension UIViewController {
-    func setNavigationBarAlpha() -> Void {
+    func setNavigationBarAlpha(hideShadowImg: Bool = false) -> Void {
         if self.navigationController != nil {
             self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-//            self.navigationController?.navigationBar.shadowImage = UIImage()
+            if hideShadowImg {
+                self.navigationController?.navigationBar.shadowImage = UIImage()
+            }
         }
     }
-    func recoverNavigationBar() -> Void {
+    
+    func recoverNavigationBar(hideShadowImg: Bool = false) -> Void {
         if self.navigationController != nil {
             self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
-//            self.navigationController?.navigationBar.shadowImage = nil
+            if hideShadowImg {
+                self.navigationController?.navigationBar.shadowImage = nil
+            }
         }
+    }
+    
+    func getNaviBarBackgroundImg() -> UIImageView? {
+        if self.navigationController == nil {
+            return nil
+        }
+        
+        guard let subViews = self.navigationController?.navigationBar.subviews else { return nil }
+        for subView in subViews {
+            let str = String(describing: type(of: subView))
+            if str == "_UIBarBackground" {
+                let imgV = subView.subviews.first
+                return imgV as? UIImageView
+            }
+        }
+        return nil
     }
 }

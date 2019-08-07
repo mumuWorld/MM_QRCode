@@ -176,3 +176,24 @@ extension UILabel {
         return label
     }
 }
+
+extension UITableView {
+    class func tableViewWith(type: UITableView.Style = UITableView.Style.plain,nibCells: Array<String>?, classCells: Array<String>?, delegate: Any?, frame: CGRect = CGRect.zero) -> UITableView {
+        let tableView = UITableView(frame: frame, style: type)
+        if let nibArray = nibCells,nibArray.count > 0 {
+            for cellStr in nibArray {
+                tableView.register(UINib(nibName: cellStr, bundle: nil), forCellReuseIdentifier: cellStr)
+            }
+        }
+        if let classArray = classCells,classArray.count > 0 {
+            for cellStr in classArray {
+                tableView.register(NSClassFromString(cellStr), forCellReuseIdentifier: cellStr)
+            }
+        }
+        if let data = delegate {
+            tableView.delegate = data as! UITableViewDelegate
+            tableView.dataSource = data as! UITableViewDataSource
+        }
+        return tableView
+    }
+}

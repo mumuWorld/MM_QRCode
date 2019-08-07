@@ -13,7 +13,7 @@ class MQHomeVC: MQBaseViewController {
     @IBOutlet weak var mainCollectionView: UICollectionView!
     var pushArray: Array<String> {
         get {
-            return ["MQScanHomeVC","MQScanHomeVC","MQScanHomeVC","MQScanHomeVC"]
+            return ["MQScanHomeVC","MQHistoryVC","MQScanHomeVC","MQScanHomeVC"]
         }
     }
     
@@ -30,12 +30,27 @@ class MQHomeVC: MQBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor.red
+//        self.navigationController?.navigationBar.isTranslucent = true
+//        self.navigationController?.navigationBar.barTintColor = UIColor.mm_colorFromHex(color_vaule: 0x2882fc,alpha: 0.0)
         setupLayout()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.setBackgroundImage(UIColor.mm_colorImgHex(color_vaule: 0x2882fc,alpha: 0.1), for: UIBarPosition.any, barMetrics: .default)
+//        let naviImg = self.getNaviBarBackgroundImg()
+//        naviImg?.image = UIColor.mm_colorImgHex(color_vaule: 0x2882fc,alpha: 0.5)
+    }
+    
     func setupLayout() -> () {
+        if #available(iOS 11.0, *) {
+            self.mainCollectionView.contentInsetAdjustmentBehavior = UIScrollView.ContentInsetAdjustmentBehavior.never
+        } else {
+            self.automaticallyAdjustsScrollViewInsets = false;
+        }
         let layout = self.mainCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
         let width = MQScreenWidth / 4.0
-        
         layout.itemSize = CGSize(width: width, height: 100)
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
