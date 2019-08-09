@@ -77,6 +77,7 @@ class MQScanHomeVC: MQBaseViewController {
         super.viewDidAppear(animated)
         startScanAnimation()
     }
+    
     @objc func handleBtnClick(sender: UIButton) -> Void {
         MQPrintLog(message: "调取相册")
         self.checkPhotoLibraryPermission(authorizedBlock: { (success) in
@@ -97,11 +98,13 @@ class MQScanHomeVC: MQBaseViewController {
 //            self.showSettingAlert(content: "需要开启访问相册权限")
 //        }
     }
+    
     func startScanAnimation() -> Void {
         session.startRunning()
         scanMaskView.startScanAnimation()
         isScaning = true;
     }
+    
     func stopScanAnimation() -> Void {
         session.stopRunning()
         scanMaskView.stopScanAnimation()
@@ -168,6 +171,7 @@ extension MQScanHomeVC {
         }
     }
     
+    /// 配置参数
     func startScan() -> Void {
         //1 设置输入
         let device = AVCaptureDevice.default(for: AVMediaType.video)
@@ -177,9 +181,16 @@ extension MQScanHomeVC {
         } catch let err {
             print("err= \(err)")
         }
+        
         //2 设置输出
         let output = AVCaptureMetadataOutput()
         output.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+        // 设置光感
+        let buffer = AVCaptureVideoDataOutput()
+        buffer.setSampleBufferDelegate(self, queue: DispatchQueue.main)
+        if session.canAddOutput(buffer) {
+            session.addOutput(buffer)
+        }
         //3 创建会话，链接输入和输出
         if session.canAddInput(input!) && session.canAddOutput(output) {
             session.addInput(input!)
@@ -292,6 +303,7 @@ extension MQScanHomeVC: AVCaptureMetadataOutputObjectsDelegate {
         shapLayer.path = path.cgPath
         preLayer.addSublayer(shapLayer)
     }
+    
     func removeQRcodeFrame() -> Void {
         guard let subLayers = preLayer.sublayers else { return }
         for layer in subLayers {
@@ -300,6 +312,7 @@ extension MQScanHomeVC: AVCaptureMetadataOutputObjectsDelegate {
             }
         }
     }
+    
     func handleResult(results: [String]) -> Void {
         self.stopScanAnimation()
         removeQRcodeFrame()
@@ -325,6 +338,23 @@ extension MQScanHomeVC: UIImagePickerControllerDelegate & UINavigationController
         }) { [weak self] (failed) in
             let alert = UIAlertController.alertOnlyConfirm(title: "提示", content: failed, confirmTitle: "确定")
             self?.navigationController?.present(alert, animated: true, completion: nil)
+        }
+    }
+}
+
+// MARK: - 光感监听
+extension MQScanHomeVC: AVCaptureVideoDataOutputSampleBufferDelegate {
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        let metadataDic = CMCopyDictionaryOfAttachments(allocator: nil, target: sampleBuffer, attachmentMode: kCMAttachmentMode_ShouldPropagate)
+        let metadata = NSDictionary.init(dictionary: metadataDic as! [AnyHashable : Any], copyItems: true)
+        let exifMetadata:NSDictionary = NSDictionary.init(dictionary: metadata.object(forKey: kCGImagePropertyExifDictionary as String) as! [AnyHashable : Any], copyItems: true)
+        let brightnessValue:CGFloat = exifMetadata[kCGImagePropertyExifBrightnessValue] as! CGFloat
+        MQPrintLog(message: "光线*****  \(brightnessValue)")
+        if brightnessValue < 0 {
+            scanMaskView.showFlash()
+        } else if brightnessValue > 0 {
+            scanMaskView.hideFlash()
+
         }
     }
 }

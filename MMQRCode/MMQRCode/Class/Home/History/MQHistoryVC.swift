@@ -29,15 +29,18 @@ class MQHistoryVC: UIViewController {
     let maxPage = 20
     
     var currentPage = 0
+    var currentCreatePage = 0
     
     lazy var scanListArr: [MQHistoryScanModel] = Array()
-    lazy var createListArr: [MQHistoryCreateModel] = Array()
+    lazy var createListArr: [MQHistoryScanModel] = Array()
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         mainScrollView.contentSize = CGSize(width: MQScreenWidth * 2.0, height: MQScreenHeight)
+        mainScrollView.bounces = false
+        mainScrollView.isScrollEnabled = false
+        
         scrollToIndexView(index: segmentControl.selectedSegmentIndex)
         
         let callBack: UpdataCallBack = {[weak self] (results: Array<MQHistoryScanModel>) -> Void in
@@ -54,8 +57,7 @@ class MQHistoryVC: UIViewController {
         self.historyViewModel = MQHistoryViewModel(callback: callBack)
         historyViewModel?.fetchDBData(page: currentPage, maxPage: maxPage)
         
-//        self.navigationController?.hidesBarsOnSwipe = true
-        // Do any additional setup after loading the view.
+        
     }
     
     @IBAction func tipsBtnClick(_ sender: Any) {
@@ -70,25 +72,103 @@ extension MQHistoryVC {
     func setupSubView() -> Void {
         
     }
+    
     func scrollToIndexView(index: Int) -> Void {
         if index == 0 {
             if scanViewList == nil {
-//                self.mainScrollView.
+                scanViewList = createTableViewWith(index)
+                self.mainScrollView.addSubview(scanViewList!)
+            }
+        } else {
+            if createViewList == nil {
+                createViewList = createTableViewWith(index)
+                self.mainScrollView.addSubview(createViewList!)
             }
         }
     }
     
-    func createTableViewWith(index:Int) -> UITableView {
-        let tableView = UITableView.tableViewWith(nibCells: [], classCells: nil, delegate: self)
+    func createTableViewWith(_ index:Int) -> UITableView {
+        let tableView = UITableView.tableViewWith(nibCells: ["MQHistoryTVCell"], classCells: nil, delegate: self)
+        tableView.frame = mainScrollView.bounds
+        tableView.mm_x = index == 0 ? 0 : MQScreenWidth
         return tableView
     }
+    
+    func getFitArray(tableView: UITableView) -> [MQHistoryScanModel] {
+        if tableView == scanViewList {
+            return scanListArr
+        }
+        return createListArr
+    }
 }
-extension MQHistoryVC: UIScrollViewDelegate {
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        CGFloat
-//        if <#condition#> {
-//            <#code#>
-//        }
+
+extension MQHistoryVC: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if tableView == scanViewList {
+            return scanListArr.count
+        }
+        return createListArr.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MQHistoryTVCell", for: indexPath) as! MQHistoryTVCell
+        let model: MQHistoryScanModel = getFitArray(tableView: tableView)[indexPath.row]
+        cell.historyModel = model
+        
+//        let panGes = tableView.superview?.gestureRecognizers?.first
+//        panGes?.require(toFail: cell.gestureRecognizers!.first!)
+        return cell
+    }
+}
+
+extension MQHistoryVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return UITableViewCell.EditingStyle(rawValue: UITableViewCell.EditingStyle.delete.rawValue | UITableViewCell.EditingStyle.insert.rawValue)!
+//        return UITableViewCell.EditingStyle.delete
+    }
+
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let delete = UITableViewRowAction(style: .destructive, title: "删除") { (action, indexPath) in
+            
+        }
+        let remark = UITableViewRowAction(style: .default, title: "备注") { (action, indexPath) in
+            
+        }
+        remark.backgroundColor = UIColor.lightGray
+        return [delete,remark]
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        MQPrintLog(message: indexPath)
+    }
+    
+//    @available(iOS 11.0, *)
+//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        return nil
 //    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
+}
+
+extension MQHistoryVC: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView == mainScrollView {
+            scanViewList?.isScrollEnabled = false
+            createViewList?.isScrollEnabled = false
+        }
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if scrollView == mainScrollView {
+            scanViewList?.isScrollEnabled = true
+            createViewList?.isScrollEnabled = true
+        }
+    }
 }
 

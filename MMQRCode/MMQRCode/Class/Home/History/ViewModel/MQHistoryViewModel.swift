@@ -19,7 +19,6 @@ class MQHistoryViewModel {
     lazy var resultTool = MQScanResultTool()
     
     func fetchDBData(page: Int,maxPage: Int) -> Void {
-        
         if let callBack = updateModelCallBack  {
             let results = resultTool.fetchAll(limit: maxPage, startPage: page)
             callBack(results)

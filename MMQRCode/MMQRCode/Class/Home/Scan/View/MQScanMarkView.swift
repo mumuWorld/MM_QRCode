@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class MQScanMarkView: UIView {
 //    var delegate: ScanViewProtocol?
@@ -39,13 +40,30 @@ class MQScanMarkView: UIView {
     lazy var flashControlView: UIView = {
        let flashControlView = UIView()
         flashStatusBtn = UIButton.buttonWith(title: nil, selectedTitle: nil, titleColor: nil, selectedColor: nil, image: "flash_close_btn", selectedImg: "flash_open_btn", target: nil, selecter: nil)
-        flashStatusLabel = UILabel.labelWith(title: "开启手电筒", titleColor: .white, font: UIFont.systemFont(ofSize: 12))
+        flashStatusBtn?.isUserInteractionEnabled = false
+        flashStatusLabel = UILabel.labelWith(title: "开启手电筒", titleColor: .white, font: UIFont.systemFont(ofSize: 12),alignment: .center)
+        flashStatusBtn?.mm_size = CGSize(width: 24, height: 24)
+        flashStatusBtn?.mm_centerX = 50
+        flashStatusBtn?.mm_y = 0
+        flashStatusLabel?.mm_centerX = 50
+        flashStatusLabel?.mm_y = flashStatusBtn!.frame.maxY + 10
         flashControlView.addSubview(flashStatusBtn!)
         flashControlView.addSubview(flashStatusLabel!)
+        flashControlView.mm_size = CGSize(width: 100, height: 50)
+        flashControlView.mm_y = scanRetangleRect!.mm_y + scanRetangleRect!.mm_height - 60
+        flashControlView.mm_centerX = self.mm_centerX
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapGes(sender:)))
+        flashControlView.addGestureRecognizer(tap)
+        flashControlView.isHidden = true
+        self.addSubview(flashControlView)
         return flashControlView
     }()
     var flashStatusBtn: UIButton?
     var flashStatusLabel: UILabel?
+    var isShowFlash: Bool = false
+    var isAnimating: Bool = false
+    
     
     lazy var auctionLabel: UILabel = {
         let label = UILabel.labelWith(title: "将二维码/条码放入框内，即可自动扫描", titleColor: UIColor.mm_color(red: 153, green: 153, blue: 153, alpha: 1.0), font: UIFont.systemFont(ofSize: 12), alignment: NSTextAlignment.center)
@@ -53,6 +71,7 @@ class MQScanMarkView: UIView {
         label.mm_centerX = self.mm_width * 0.5
         return label
     }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = UIColor.mm_color(red: 0, green: 0, blue: 0, alpha: 0)
@@ -154,9 +173,11 @@ extension MQScanMarkView {
     @objc func appWillEnterBackground() -> Void {
         stopScanAnimation()
     }
+    
     @objc func appWillEnterForeground() -> Void {
         startScanAnimation()
     }
+    
     func startScanAnimation() -> Void {
         if isScaning {
             return
@@ -170,11 +191,81 @@ extension MQScanMarkView {
             self.scanLineImg.mm_y = self.scanRetangleRect!.mm_y - self.scanRetangleRect!.mm_height * 0.5
         }
     }
+    
     func stopScanAnimation() -> Void {
         self.scanLineImg.isHidden = true;
         self.scanLineImg.mm_y = self.scanRetangleRect!.mm_y - self.scanRetangleRect!.mm_height * 0.5
         self.scanLineImg.layer.removeAllAnimations()
         isScaning = false;
+    }
+    
+    func showFlash() -> Void {
+        if isShowFlash || isAnimating {
+            return
+        }
+        isShowFlash = true
+        isAnimating = true
+        if flashControlView.isHidden {
+            flashControlView.alpha = 0
+            flashControlView.isHidden = false
+            UIView.animate(withDuration: 0.2, animations: {
+                self.flashControlView.alpha = 1
+            }) { (_) in
+                self.isAnimating = false
+            }
+        }
+    }
+    
+    func hideFlash() -> Void {
+        if !isShowFlash || isAnimating {
+            return
+        }
+        if flashStatusBtn!.isSelected {
+            return
+        }
+        isShowFlash = false
+        isAnimating = true
+        if !flashControlView.isHidden {
+            self.flashControlView.alpha = 1
+            UIView.animate(withDuration: 0.2, animations: {
+                self.flashControlView.alpha = 0
+            }) { (_) in
+                self.flashControlView.isHidden = true
+                self.isAnimating = false
+            }
+        }
+    }
+    
+    @objc func handleTapGes(sender: UITapGestureRecognizer) -> Void {
+        let device = AVCaptureDevice.default(for: AVMediaType.video)
+        if device == nil {
+            setFlastStatus(status: 0)
+            return
+        }
+        if device?.torchMode == AVCaptureDevice.TorchMode.off {
+            do {
+                try device?.lockForConfiguration()
+            } catch {
+                return
+            }
+            device?.torchMode = .on
+            setFlastStatus(status: 1)
+        } else {
+            do {
+                try device?.lockForConfiguration()
+            } catch {
+                return
+            }
+            device?.torchMode = .off
+            setFlastStatus(status: 0)
+        }
+        device?.unlockForConfiguration()
+    }
+    
+    func setFlastStatus(status: Int) -> Void {
+        flashStatusBtn?.isSelected = status == 0 ? false : true
+        flashStatusLabel?.text = status == 0 ? "打开手电筒" : "关闭手电筒"
+        flashStatusLabel?.textColor = status == 0 ? .white : MQMainColor
     }
 }
 //@objc protocol ScanViewProtocol {
