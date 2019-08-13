@@ -9,9 +9,11 @@
 import UIKit
 import AVFoundation
 
+enum MarkViewTouchType {
+    case signleTap,twiceTap,twoFinger
+}
 class MQScanMarkView: UIView {
-//    var delegate: ScanViewProtocol?
-    
+    weak var scanDelegate: ScanViewProtocol?
     /// 非识别区域颜色
     var notRecoginitonArea: UIColor?
     var scanRetangleRect: CGRect?
@@ -56,6 +58,7 @@ class MQScanMarkView: UIView {
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapGes(sender:)))
         flashControlView.addGestureRecognizer(tap)
         flashControlView.isHidden = true
+
         self.addSubview(flashControlView)
         return flashControlView
     }()
@@ -87,11 +90,21 @@ class MQScanMarkView: UIView {
         photoframeLineW = 6;
         NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterBackground), name: UIApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+        //双击手势
+        let zoomTouch = UITapGestureRecognizer(target: self, action: #selector(handleTwiceScalleGes(sender:)))
+        zoomTouch.numberOfTapsRequired = 2;
+        self.addGestureRecognizer(zoomTouch)
+        //单击手势
+        let singleTap = UITapGestureRecognizer(target: self, action: #selector(handleMinScalleGes(sender:)))
+        self.addGestureRecognizer(singleTap)
+        
         
     }
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -267,8 +280,19 @@ extension MQScanMarkView {
         flashStatusLabel?.text = status == 0 ? "打开手电筒" : "关闭手电筒"
         flashStatusLabel?.textColor = status == 0 ? .white : MQMainColor
     }
+    
+    @objc func handleTwiceScalleGes(sender: UITapGestureRecognizer) {
+        self.scanDelegate?.scanViewGestureTouch(type: .twiceTap)
+
+    }
+    
+    @objc func handleZoomScalleGes(sender: UITapGestureRecognizer) {
+    }
+    
+    @objc func handleMinScalleGes(sender: UITapGestureRecognizer) {
+    }
 }
-//@objc protocol ScanViewProtocol {
-//    @available(iOS 10.0, *)
-//    func scanViewConfigure(scanView: MQScanMarkView) -> Dictionary<String, Any>;
-//}
+
+protocol ScanViewProtocol: class {
+    func scanViewGestureTouch(type: MarkViewTouchType)
+}

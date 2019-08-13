@@ -91,6 +91,7 @@ extension MQHistoryVC {
         let tableView = UITableView.tableViewWith(nibCells: ["MQHistoryTVCell"], classCells: nil, delegate: self)
         tableView.frame = mainScrollView.bounds
         tableView.mm_x = index == 0 ? 0 : MQScreenWidth
+        tableView.allowsMultipleSelection = true
         return tableView
     }
     
@@ -112,9 +113,11 @@ extension MQHistoryVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MQHistoryTVCell", for: indexPath) as! MQHistoryTVCell
-        let model: MQHistoryScanModel = getFitArray(tableView: tableView)[indexPath.row]
-        cell.historyModel = model
+        let models: [MQHistoryScanModel] = getFitArray(tableView: tableView)
+        let model: MQHistoryScanModel = models[indexPath.row]
         
+        cell.historyModel = model
+        cell.separatorLineView.isHidden = indexPath.row + 1 == models.count
 //        let panGes = tableView.superview?.gestureRecognizers?.first
 //        panGes?.require(toFail: cell.gestureRecognizers!.first!)
         return cell
@@ -146,13 +149,24 @@ extension MQHistoryVC: UITableViewDelegate {
         MQPrintLog(message: indexPath)
     }
     
-//    @available(iOS 11.0, *)
-//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        return nil
-//    }
+    @available(iOS 11.0, *)
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let config = UISwipeActionsConfiguration()
+        config.performsFirstActionWithFullSwipe = false
+        return config
+    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let model: MQHistoryScanModel = getFitArray(tableView: tableView)[indexPath.row]
+        let resultVC:MQScanResultVC = UIStoryboard(name: "MQHome", bundle: nil).instantiateViewController(withIdentifier: "MQScanResultVC") as! MQScanResultVC
+        resultVC.needToSaveDB = false
+        resultVC.resultData = [model.scanContent!]
+        self.navigationController?.pushViewController(resultVC, animated: true)
     }
 }
 

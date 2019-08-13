@@ -16,6 +16,7 @@ class MQWKWebCV: MQBaseViewController {
         _wkWebView.uiDelegate = self
         _wkWebView.navigationDelegate = self
         _wkWebView.isOpaque = false
+        _wkWebView.allowsBackForwardNavigationGestures = true
         _wkWebView.backgroundColor = UIColor.init(white: 0.0, alpha: 0.0)
         //        _wkWebView?.scrollView.backgroundColor = UIColor.init(white: 0.0, alpha: 0.0)
         _wkWebView.scrollView.addObserver(self, forKeyPath: "contentOffset", options: [.new], context: nil)
@@ -120,6 +121,7 @@ extension MQWKWebCV: WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        MQPrintLog(message: "didFinishLoading")
         let deadline = DispatchTime.now() + 0.5
         DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
             self.progressView.isHidden = true
@@ -127,6 +129,14 @@ extension MQWKWebCV: WKNavigationDelegate {
         if let title = webView.title {
             self.navigationItem.title = title
         }
+    }
+    
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        MQErrorLog(message: "didFinishLoading + \(error)")
+    }
+    
+    func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+        MQErrorLog(message: "Terminate")
     }
 }
 

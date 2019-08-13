@@ -35,7 +35,7 @@ class MQScanResultTool {
             let update = table?.filter(_content == content && _contentType == type)
             
             if let count = try? MQDBManager.shareManager.shareDB?.run((update?.update(_time <- time, _remark <- remark))!) {
-                MQPrintLog(message: "更新g成功=\(count)")
+                MQPrintLog(message: "更新成功=\(count)")
             } else {
                 MQPrintLog(message: "更新失败")
             }

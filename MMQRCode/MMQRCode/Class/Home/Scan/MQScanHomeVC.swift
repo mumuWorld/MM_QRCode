@@ -23,17 +23,7 @@ class MQScanHomeVC: MQBaseViewController {
         return pre
     }()
     
-    
     var isScaning:Bool = false
-    
-    lazy var session:AVCaptureSession = {
-        let session = AVCaptureSession()
-        return session
-    }()
-    /// 预览图层
-    lazy var preLayer:AVCaptureVideoPreviewLayer = {
-        return AVCaptureVideoPreviewLayer(session: session)
-    }()
     
     lazy var scanMaskView: MQScanMarkView = {
         let scanMaskView = MQScanMarkView()
@@ -61,13 +51,18 @@ class MQScanHomeVC: MQBaseViewController {
         self.view.backgroundColor = UIColor.black
         saveCheckStatus = .notDetermined
         setupSubViews()
-        checkupAuthorization()
+        self.scanTool.resultDelegate = self
+        self.scanTool.scanMaskView = scanMaskView
+        self.scanTool.preview = preview
+        self.scanTool.checkupAuthorization()
     }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         recoverNavigationBar()
-        stopScanAnimation()
+        scanTool.stopScaning()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.setNavigationBarAlpha()
@@ -75,14 +70,14 @@ class MQScanHomeVC: MQBaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        startScanAnimation()
+        scanTool.startScaning()
     }
     
     @objc func handleBtnClick(sender: UIButton) -> Void {
         MQPrintLog(message: "调取相册")
         self.checkPhotoLibraryPermission(authorizedBlock: { (success) in
             let pickerVC = UIImagePickerController()
-            pickerVC.delegate = self
+            pickerVC.delegate = self.scanTool
             pickerVC.sourceType = .savedPhotosAlbum
             self.navigationController?.present(pickerVC, animated: true, completion: nil)
         }) { (deninit) in
@@ -97,18 +92,6 @@ class MQScanHomeVC: MQBaseViewController {
 //        } else {
 //            self.showSettingAlert(content: "需要开启访问相册权限")
 //        }
-    }
-    
-    func startScanAnimation() -> Void {
-        session.startRunning()
-        scanMaskView.startScanAnimation()
-        isScaning = true;
-    }
-    
-    func stopScanAnimation() -> Void {
-        session.stopRunning()
-        scanMaskView.stopScanAnimation()
-        isScaning = false;
     }
 }
 
@@ -130,96 +113,6 @@ extension MQScanHomeVC {
         self.navigationItem.title = "二维码/条码"
         self.view.addSubview(self.preview);
         self.view.addSubview(self.scanMaskView)
-    }
-    
-    func checkupAuthorization() -> Void {
-        if saveCheckStatus == .authorized {
-            shouldScan()
-            return
-        } else if saveCheckStatus == AVAuthorizationStatus.denied {
-            showSettingAlert(content: "需要开启相机权限才能进行扫描")
-            return
-        }
-        saveCheckStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
-        
-        if saveCheckStatus == AVAuthorizationStatus.notDetermined {
-            // 第一次触发授权 alert
-            AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
-                if granted {
-                    self.saveCheckStatus = .authorized
-                     DispatchQueue.main.async {
-                    self.shouldScan()
-                    }
-                } else {
-                    self.saveCheckStatus = .denied
-                    self.showSettingAlert(content: "需要开启相机权限才能进行扫描")
-                }
-//                self.cameraPermissions(authorizedBlock: authorizedBlock, deniedBlock: deniedBlock)
-            })
-        } else if saveCheckStatus == AVAuthorizationStatus.authorized {
-            MQPrintLog(message: "status=\(saveCheckStatus!.rawValue)")
-        } else {
-            showSettingAlert(content: "需要开启相机权限才能进行扫描")
-            return
-        }
-        shouldScan()
-    }
-    
-    func shouldScan() -> Void {
-        if !isScaning {
-            self.startScan()
-        }
-    }
-    
-    /// 配置参数
-    func startScan() -> Void {
-        //1 设置输入
-        let device = AVCaptureDevice.default(for: AVMediaType.video)
-        var input:AVCaptureInput?
-        do {
-            try input = AVCaptureDeviceInput(device: device!)
-        } catch let err {
-            print("err= \(err)")
-        }
-        
-        //2 设置输出
-        let output = AVCaptureMetadataOutput()
-        output.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-        // 设置光感
-        let buffer = AVCaptureVideoDataOutput()
-        buffer.setSampleBufferDelegate(self, queue: DispatchQueue.main)
-        if session.canAddOutput(buffer) {
-            session.addOutput(buffer)
-        }
-        //3 创建会话，链接输入和输出
-        if session.canAddInput(input!) && session.canAddOutput(output) {
-            session.addInput(input!)
-            session.addOutput(output)
-        }
-        //3.1 设置二维码可以识别的码制。
-        output.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
-        //3.2 添加视频预览图层
-        preLayer.frame = self.view.bounds
-        UIView.animate(withDuration: 0.5) {
-            self.preview.layer.insertSublayer(self.preLayer, at: 0)
-        }
-        //3.3 设置兴趣区域
-        // 注意, 此处需要填的rect, 是以右上角为(0, 0), 也就是横屏状态
-        // 值域范围: 0->1
-        let sWidth = MQScreenWidth
-        let sHeight = MQScreenHeight
-        let x = 30.0/sWidth
-        let y = CGFloat(MQNavigationBarHeight + 100)/sHeight
-        let widthT = MQScreenWidth - 30 * 2.0
-        
-        let width = widthT/sWidth
-        let height = widthT/sHeight
-        //设置采集扫描区域的比例 默认全屏是（0，0，1，1）
-        //rectOfInterest 填写的是一个比例，输出流视图preview.frame为 x , y, w, h, 要设置的矩形快的scanFrame 为 x1, y1, w1, h1. 那么rectOfInterest 应该设置为 CGRectMake(y1/y, x1/x, h1/h, w1/w)。
-        output.rectOfInterest = CGRect(x: y, y: x, width: height, height: width)
-        
-        //4 启动会话 （让输入开始采集数据，输出对象处理数据）
-//        session.startRunning()
     }
     
     func checkPhotoLibraryPermission(authorizedBlock: ((PHAuthorizationStatus) -> Void)?, deniedBlock: ((PHAuthorizationStatus) -> Void)?) -> Void {
@@ -248,113 +141,23 @@ extension MQScanHomeVC {
         }
     }
 }
-extension MQScanHomeVC: AVCaptureMetadataOutputObjectsDelegate {
-    func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
-        //画之前 ，移除上一次绘制的 frame
-        removeQRcodeFrame()
-        //直接要第一个
-//        wxp://f2f0mmJRwn23YosIHu4CWtasONMV1oTMoLDg
-        if metadataObjects.count > 0 {
-            var resultArr = Array<String>()
-            //遍历输出数组
-            for metaObject in metadataObjects {
-                if metaObject.isKind(of: AVMetadataMachineReadableCodeObject.self) {
-                    let resultObj = preLayer.transformedMetadataObject(for: metaObject)
-                    
-                    let obj = resultObj as! AVMetadataMachineReadableCodeObject
-                    MQPrintLog(message: "message \(obj.stringValue ?? "")")
-                    if let value = obj.stringValue {
-                        resultArr.append(value)
-                    }
-                    //                corners代表二维码的四个角，但是需要预览图层，转换成我们需要的可用的坐标。
-                    //                [(50.52805463348426, 240.47635589036352), (52.81510895931001, 311.85075811638114), (124.59585025601314, 315.18543130468424), (125.05869720092755, 244.04843359876355)]
-                    MQPrintLog(message: "corners: \(obj.corners)")
-                    drawFrame(codeObj: obj)
-                }
-            }
-            handleResult(results: resultArr)
-            return
-        }
-       
-        
-    }
-    func drawFrame(codeObj:AVMetadataMachineReadableCodeObject) -> Void {
-        let corners = codeObj.corners
-        //1 借助一个图形层来绘制
-        let shapLayer = CAShapeLayer()
-        shapLayer.lineWidth = 3
-        shapLayer.fillColor = UIColor.clear.cgColor
-        shapLayer.strokeColor = UIColor.red.cgColor
-        
-        //        var index = 0
-        let path = UIBezierPath()
-        //2 根据四个点 创建路径
-        for index in 0..<corners.count {
-            let point = corners[index]
-            //            let point = CGPoint(dictionaryRepresentation: pointDic)!
-            if index == 0 {
-                path.move(to: point)
-            } else {
-                path.addLine(to: point)
-            }
-        }
-        path.close()
-        
-        shapLayer.path = path.cgPath
-        preLayer.addSublayer(shapLayer)
-    }
+
+// MARK: - 扫描结果代理
+extension MQScanHomeVC: MQScanResultProtocol {
     
-    func removeQRcodeFrame() -> Void {
-        guard let subLayers = preLayer.sublayers else { return }
-        for layer in subLayers {
-            if layer.isKind(of: CAShapeLayer.self) {
-                layer.removeFromSuperlayer()
+    func mqScanResult(tool: MQScanTool?, scanStatus: MQScanStatus, scanResult: [String]?, error: String?) {
+        if scanStatus == .success {
+            if let resultArr = scanResult, resultArr.count > 0 {
+                let resultVC:MQScanResultVC = UIStoryboard(name: "MQHome", bundle: nil).instantiateViewController(withIdentifier: "MQScanResultVC") as! MQScanResultVC
+                resultVC.resultData = resultArr
+                resultVC.needToSaveDB = true
+                self.navigationController?.pushViewController(resultVC, animated: true)
             }
-        }
-    }
-    
-    func handleResult(results: [String]) -> Void {
-        self.stopScanAnimation()
-        removeQRcodeFrame()
-        let resultArr = results
-        if resultArr.count > 0 {
-            let resultVC:MQScanResultVC = UIStoryboard(name: "MQHome", bundle: nil).instantiateViewController(withIdentifier: "MQScanResultVC") as! MQScanResultVC
-            resultVC.resultData = resultArr
-            self.navigationController?.pushViewController(resultVC, animated: true)
-        }
-    }
-}
-
-// MARK: - UIImagePickerControllerDelegate & UINavigationControllerDelegate
-extension MQScanHomeVC: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        picker.dismiss(animated: true, completion: nil)
-        
-        let source = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-        self.scanTool.scanImg(sourceImg: source, successResult: { [weak self] (result: [String]) in
-            if result.count > 0 {
-                self?.handleResult(results: result)
-            }
-        }) { [weak self] (failed) in
-            let alert = UIAlertController.alertOnlyConfirm(title: "提示", content: failed, confirmTitle: "确定")
-            self?.navigationController?.present(alert, animated: true, completion: nil)
-        }
-    }
-}
-
-// MARK: - 光感监听
-extension MQScanHomeVC: AVCaptureVideoDataOutputSampleBufferDelegate {
-    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        let metadataDic = CMCopyDictionaryOfAttachments(allocator: nil, target: sampleBuffer, attachmentMode: kCMAttachmentMode_ShouldPropagate)
-        let metadata = NSDictionary.init(dictionary: metadataDic as! [AnyHashable : Any], copyItems: true)
-        let exifMetadata:NSDictionary = NSDictionary.init(dictionary: metadata.object(forKey: kCGImagePropertyExifDictionary as String) as! [AnyHashable : Any], copyItems: true)
-        let brightnessValue:CGFloat = exifMetadata[kCGImagePropertyExifBrightnessValue] as! CGFloat
-        MQPrintLog(message: "光线*****  \(brightnessValue)")
-        if brightnessValue < 0 {
-            scanMaskView.showFlash()
-        } else if brightnessValue > 0 {
-            scanMaskView.hideFlash()
-
+        } else if scanStatus == .failed {
+            let alert = UIAlertController.alertOnlyConfirm(title: "提示", content: error ?? "", confirmTitle: "确定")
+            self.navigationController?.present(alert, animated: true, completion: nil)
+        } else { //没有权限
+            showSettingAlert(content: "需要开启相机权限才能进行扫描")
         }
     }
 }

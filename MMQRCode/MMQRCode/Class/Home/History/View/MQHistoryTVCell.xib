@@ -37,6 +37,13 @@
                         <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hLx-pb-GPd">
+                        <rect key="frame" x="8" y="58.5" width="304" height="1"/>
+                        <color key="backgroundColor" red="0.81568627450980391" green="0.81568627450980391" blue="0.81568627450980391" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="6a6-gl-uiS"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="s90-mv-kGa" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="30:59" id="7fy-3L-vZb"/>
@@ -44,16 +51,20 @@
                     <constraint firstItem="l9O-Fz-7j1" firstAttribute="leading" secondItem="s90-mv-kGa" secondAttribute="trailing" constant="10" id="DXA-4V-joX"/>
                     <constraint firstItem="s90-mv-kGa" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="K84-N5-IFE"/>
                     <constraint firstItem="l9O-Fz-7j1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="W74-Xy-OZs"/>
+                    <constraint firstItem="hLx-pb-GPd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="WZW-5J-gye"/>
                     <constraint firstAttribute="trailing" secondItem="l9O-Fz-7j1" secondAttribute="trailing" constant="16" id="Wcm-3G-lsF"/>
                     <constraint firstItem="s90-mv-kGa" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="aP2-bp-1Dp"/>
+                    <constraint firstAttribute="trailing" secondItem="hLx-pb-GPd" secondAttribute="trailing" constant="8" id="fbX-XD-Hbw"/>
                     <constraint firstAttribute="bottom" secondItem="Wne-43-fuV" secondAttribute="bottom" constant="10" id="lMt-I2-2h4"/>
                     <constraint firstItem="Wne-43-fuV" firstAttribute="leading" secondItem="l9O-Fz-7j1" secondAttribute="leading" id="lpC-sf-uy4"/>
+                    <constraint firstAttribute="bottom" secondItem="hLx-pb-GPd" secondAttribute="bottom" id="wLl-Bb-ReL"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="contentLabel" destination="l9O-Fz-7j1" id="l98-eo-OJ1"/>
                 <outlet property="iconImg" destination="s90-mv-kGa" id="qV7-xM-8Lh"/>
+                <outlet property="separatorLineView" destination="hLx-pb-GPd" id="lNC-ZC-fPG"/>
                 <outlet property="timeLabel" destination="Wne-43-fuV" id="GT9-nH-ADk"/>
             </connections>
             <point key="canvasLocation" x="121.73913043478262" y="104.46428571428571"/>

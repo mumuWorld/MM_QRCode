@@ -101,6 +101,8 @@
 		DF0361ED22EADEF6000B4C24 /* UIAlert+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlert+Extension.swift"; sourceTree = "<group>"; };
 		DF0361EF22EB1BC5000B4C24 /* MQScanMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQScanMarkView.swift; sourceTree = "<group>"; };
 		DF2DA56422FD4E57009AFB3A /* MQThroughScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQThroughScrollView.swift; sourceTree = "<group>"; };
+		DF34922F2302A03B00F9914F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
+		DF3492302302A03B00F9914F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		DF47EECF22EEE7CB006EA435 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		DF47EED122EEEEEF006EA435 /* MQScanResultVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQScanResultVC.swift; sourceTree = "<group>"; };
 		DF47EED522EF0C0C006EA435 /* MQScanTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQScanTool.swift; sourceTree = "<group>"; };
@@ -506,6 +508,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hant",
 			);
 			mainGroup = DF03618522E8240E000B4C24;
 			productRefGroup = DF03618F22E8240E000B4C24 /* Products */;
@@ -715,6 +718,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				DF03619622E8240E000B4C24 /* Base */,
+				DF34922F2302A03B00F9914F /* zh-Hant */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -723,6 +727,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				DF03619B22E8240F000B4C24 /* Base */,
+				DF3492302302A03B00F9914F /* zh-Hant */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -734,6 +739,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -781,7 +787,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -795,6 +801,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -836,7 +843,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

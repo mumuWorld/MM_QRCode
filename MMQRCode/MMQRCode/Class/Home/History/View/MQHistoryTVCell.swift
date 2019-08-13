@@ -16,6 +16,8 @@ class MQHistoryTVCell: UITableViewCell {
     
     @IBOutlet weak var timeLabel: UILabel!
     
+    @IBOutlet weak var separatorLineView: UIView!
+    
     var _historyModel:MQHistoryScanModel?
     var historyModel: MQHistoryScanModel? {
         set {
@@ -26,6 +28,10 @@ class MQHistoryTVCell: UITableViewCell {
                 self.contentLabel.text = remark
             } else {
                 self.contentLabel.text = model.scanContent
+            }
+            
+            if let createTime = model.createTime, createTime.count > 0 {
+                self.timeLabel.text = createTime
             }
             
             if 0 == model.contentType { //文本

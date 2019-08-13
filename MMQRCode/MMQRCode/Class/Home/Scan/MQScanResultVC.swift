@@ -28,6 +28,8 @@ class MQScanResultVC: MQBaseViewController {
     
     var _resultType:ResultType = .OnlyStr
     
+    var needToSaveDB: Bool = false
+    
     var rightItem: UIBarButtonItem {
         get {
             let _rightItem = UIBarButtonItem.barButtomItem(title: nil, selectedTitle: nil, titleColor: MQMainColor, selectedColor: nil, image: "btn_tip_navi", selectedImg: nil, target: self, selecter: #selector(handleBtnClick(sender:)))
@@ -86,6 +88,7 @@ extension MQScanResultVC {
     @objc func handleBtnClick(sender: UIButton) {
         MQToastView.show(message: "测试toast")
     }
+    
     func judgeResult(results: [String]) -> Void {
         if results.count > 0 {
             let resultStr = results.first!
@@ -105,6 +108,7 @@ extension MQScanResultVC {
             }
         }
     }
+    
     func handleResultType(result: String,type: ResultType) -> Void {
         _resultType = type
         switch type {
@@ -115,7 +119,9 @@ extension MQScanResultVC {
         default:
             break
         }
-        resultTool.saveScanHistory(content: result, type: type.rawValue)
+        if needToSaveDB {
+            resultTool.saveScanHistory(content: result, type: type.rawValue)
+        }
     }
     
 }
