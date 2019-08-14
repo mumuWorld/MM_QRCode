@@ -16,8 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow.init(frame: UIScreen.main.bounds)
-        let baseTab = MQTabbarController()
-        let homeNavi = MQBaseNavigationViewController(rootViewController: baseTab)
+        let homeVC = UIStoryboard(name: "MQHome", bundle: nil).instantiateViewController(withIdentifier: "homeVC") as! MQHomeVC
+        let homeNavi = MQBaseNavigationViewController(rootViewController: homeVC)
         window?.rootViewController = homeNavi
         window?.makeKeyAndVisible()
         return true

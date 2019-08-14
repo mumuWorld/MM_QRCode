@@ -34,6 +34,7 @@ class MQHistoryVC: UIViewController {
     lazy var scanListArr: [MQHistoryScanModel] = Array()
     lazy var createListArr: [MQHistoryScanModel] = Array()
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -57,7 +58,6 @@ class MQHistoryVC: UIViewController {
         self.historyViewModel = MQHistoryViewModel(callback: callBack)
         historyViewModel?.fetchDBData(page: currentPage, maxPage: maxPage)
         
-        
     }
     
     @IBAction func tipsBtnClick(_ sender: Any) {
@@ -69,9 +69,7 @@ class MQHistoryVC: UIViewController {
     }
 }
 extension MQHistoryVC {
-    func setupSubView() -> Void {
-        
-    }
+
     
     func scrollToIndexView(index: Int) -> Void {
         if index == 0 {
@@ -104,6 +102,7 @@ extension MQHistoryVC {
 }
 
 extension MQHistoryVC: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == scanViewList {
             return scanListArr.count
