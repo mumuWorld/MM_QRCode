@@ -20,7 +20,7 @@ let MQMainTitleColor = UIColor.mm_colorFromHex(color_vaule: 0x444444)
 
 let MQNavigationBarHeight: CGFloat = UIDevice.MQIsIphoneXAll ? 88.0 : 64.0
 
-let MQHomeIndicatorHeight = UIDevice.MQIsIphoneXAll ? 34.0 : 0
+let MQHomeIndicatorHeight: CGFloat = UIDevice.MQIsIphoneXAll ? 34.0 : 0
 
 let MQStatusBarHeight = UIDevice.MQIsIphoneXAll ? 44.0 : 20.0
 

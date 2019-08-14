@@ -32,6 +32,23 @@ class MQHomeVC: MQBaseViewController {
 
     var transitionMan: MQHomeTransitionManager?
     
+    lazy var photoLibraryBtn: UIButton = {
+        let btn = UIButton.buttonWith(title: nil, selectedTitle: nil, titleColor: nil, selectedColor: nil, image: "photo_library_btn", selectedImg: nil, target: self, selecter: #selector(handleBtnClick(sender:)), tag: 10)
+        let y = MQScreenHeight - MQHomeIndicatorHeight - 44 - 48
+        btn.frame = CGRect(x: 0, y: y, width: 48, height: 48)
+        btn.mm_centerX = self.view.mm_width * 0.25
+        btn.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.fill
+        btn.contentVerticalAlignment = UIControl.ContentVerticalAlignment.fill
+        btn.layer.cornerRadius = 24
+        return btn
+    }()
+    
+    lazy var scanTool: MQScanTool = {
+        let tool = MQScanTool()
+        tool.resultDelegate = self
+        return tool
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
@@ -61,6 +78,29 @@ class MQHomeVC: MQBaseViewController {
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
     }
+    
+    @objc func handleBtnClick(sender: UIButton) -> Void {
+        if sender.tag == 10 {
+            MQAuthorization.checkPhotoLibraryPermission(authorizedBlock: { (success) in
+                let pickerVC = UIImagePickerController()
+                pickerVC.delegate = self.scanTool
+                pickerVC.sourceType = .savedPhotosAlbum
+                self.navigationController?.present(pickerVC, animated: true, completion: nil)
+            }) { (deninit) in
+                self.showSettingAlert(content: "需要开启访问相册权限")
+            }
+        }
+    }
+    
+    func showSettingAlert(content: String) -> Void {
+        let alert = UIAlertController.alert(title: "提示", content: content, confirmTitle: "去设置", confirmHandler: { (_) in
+            let settingUrl = URL(string: UIApplication.openSettingsURLString)
+            if UIApplication.shared.canOpenURL(settingUrl!) {
+                UIApplication.shared.openURL(settingUrl!)
+            }
+        }, cancelTitle: "取消", cancelHandler: nil)
+        self.navigationController?.present(alert, animated: true, completion: nil)
+    }
 }
 
 extension MQHomeVC {
@@ -77,6 +117,7 @@ extension MQHomeVC {
             self?.pushToVC(index: 0)
         }
         view.addSubview(scanClickView!)
+        view.addSubview(photoLibraryBtn)
     }
     
     func pushToVC(index: Int) -> Void {
@@ -86,6 +127,24 @@ extension MQHomeVC {
         let vcStr = pushArray[index]
         let vc = UIStoryboard(name: "MQHome", bundle: nil).instantiateViewController(withIdentifier: vcStr)
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension MQHomeVC: MQScanResultProtocol {
+    func mqScanResult(tool: MQScanTool?, scanStatus: MQScanStatus, scanResult: [String]?, error: String?) {
+        if scanStatus == .success {
+            if let resultArr = scanResult, resultArr.count > 0 {
+                let resultVC:MQScanResultVC = UIStoryboard(name: "MQHome", bundle: nil).instantiateViewController(withIdentifier: "MQScanResultVC") as! MQScanResultVC
+                resultVC.resultData = resultArr
+                resultVC.needToSaveDB = true
+                self.navigationController?.pushViewController(resultVC, animated: true)
+            }
+        } else if scanStatus == .failed {
+            let alert = UIAlertController.alertOnlyConfirm(title: "提示", content: error ?? "", confirmTitle: "确定")
+            self.navigationController?.present(alert, animated: true, completion: nil)
+        } else { //没有权限
+            showSettingAlert(content: "需要开启相机权限才能进行扫描")
+        }
     }
 }
 

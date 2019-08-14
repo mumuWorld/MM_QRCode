@@ -130,6 +130,7 @@ extension MQScanTool {
         }
     }
     
+    /// 初始化device
     func setupScanQRCode() -> Void {
         //1 设置输入
         device = AVCaptureDevice.default(for: AVMediaType.video)
@@ -159,9 +160,9 @@ extension MQScanTool {
         //3.2 添加视频预览图层
         if let tPreview = preview {
             preLayer.frame = tPreview.bounds
-            UIView.animate(withDuration: 0.5) {
+//            UIView.animate(withDuration: 0.2) {
                 tPreview.layer.insertSublayer(self.preLayer, at: 0)
-            }
+//            }
         }
         
         //3.3 设置兴趣区域
@@ -292,7 +293,7 @@ extension MQScanTool: ScanViewProtocol {
             device?.unlockForConfiguration()
             if let tmpDevice = device {
                 UIView.animate(withDuration: 1, delay: 0, options: .curveEaseOut, animations: {
-                    let purpose = CATransform3DScale(self.preLayer.transform, 1.5, 1.5, 1)
+                    let purpose = CATransform3DScale(self.preLayer.transform, 1.2, 1.2, 1)
                     self.preLayer.transform = self.isFouce ? CATransform3DIdentity : purpose
                 }) { (_) in
                 }
@@ -318,7 +319,7 @@ extension MQScanTool: AVCaptureVideoDataOutputSampleBufferDelegate {
         let metadata = NSDictionary.init(dictionary: metadataDic as! [AnyHashable : Any], copyItems: true)
         let exifMetadata:NSDictionary = NSDictionary.init(dictionary: metadata.object(forKey: kCGImagePropertyExifDictionary as String) as! [AnyHashable : Any], copyItems: true)
         let brightnessValue:CGFloat = exifMetadata[kCGImagePropertyExifBrightnessValue] as! CGFloat
-        MQPrintLog(message: "光线*****  \(brightnessValue)")
+//        MQPrintLog(message: "光线*****  \(brightnessValue)")
         if brightnessValue < 0 {
             scanMaskView?.showFlash()
         } else if brightnessValue > 0 {

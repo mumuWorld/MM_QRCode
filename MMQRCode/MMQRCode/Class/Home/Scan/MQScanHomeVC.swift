@@ -75,7 +75,7 @@ class MQScanHomeVC: MQBaseViewController {
     
     @objc func handleBtnClick(sender: UIButton) -> Void {
         MQPrintLog(message: "调取相册")
-        self.checkPhotoLibraryPermission(authorizedBlock: { (success) in
+        MQAuthorization.checkPhotoLibraryPermission(authorizedBlock: { (success) in
             let pickerVC = UIImagePickerController()
             pickerVC.delegate = self.scanTool
             pickerVC.sourceType = .savedPhotosAlbum
@@ -115,31 +115,7 @@ extension MQScanHomeVC {
         self.view.addSubview(self.scanMaskView)
     }
     
-    func checkPhotoLibraryPermission(authorizedBlock: ((PHAuthorizationStatus) -> Void)?, deniedBlock: ((PHAuthorizationStatus) -> Void)?) -> Void {
-        let authStatus = PHPhotoLibrary.authorizationStatus()
-        if authStatus == .notDetermined {
-            // 第一次触发授权 alert
-            PHPhotoLibrary.requestAuthorization { (status:PHAuthorizationStatus) -> Void in
-                if status == .authorized  {
-                    if authorizedBlock != nil {
-                        authorizedBlock!(status)
-                    }
-                } else {
-                    if deniedBlock != nil {
-                        deniedBlock!(status)
-                    }
-                }
-            }
-        } else if authStatus == .authorized  {
-            if authorizedBlock != nil {
-                authorizedBlock!(authStatus)
-            }
-        } else {
-            if deniedBlock != nil {
-                deniedBlock!(authStatus)
-            }
-        }
-    }
+
 }
 
 // MARK: - 扫描结果代理
