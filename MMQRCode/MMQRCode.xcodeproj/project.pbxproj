@@ -33,6 +33,10 @@
 		DF1C8BAF2303E95B00A6125A /* MQHomeTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1C8BAE2303E95B00A6125A /* MQHomeTransitionManager.swift */; };
 		DF1C8BB12303E98D00A6125A /* MQHomeTransitionAnimated.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1C8BB02303E98D00A6125A /* MQHomeTransitionAnimated.swift */; };
 		DF1C8BB42304253000A6125A /* MQAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1C8BB32304253000A6125A /* MQAuthorization.swift */; };
+		DF1C8BD82305282100A6125A /* MQGenerateInputVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1C8BD72305282100A6125A /* MQGenerateInputVC.swift */; };
+		DF1C8BDA23052EF600A6125A /* MQGenerateTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1C8BD923052EF600A6125A /* MQGenerateTool.swift */; };
+		DF1C8BDC230532E700A6125A /* MQShowQRCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1C8BDB230532E700A6125A /* MQShowQRCodeVC.swift */; };
+		DF1C8BDF23056AB400A6125A /* UIImage+MM_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1C8BDE23056AB400A6125A /* UIImage+MM_Extension.swift */; };
 		DF2DA56522FD4E57009AFB3A /* MQThroughScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2DA56422FD4E57009AFB3A /* MQThroughScrollView.swift */; };
 		DF47EED022EEE7CB006EA435 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF47EECF22EEE7CB006EA435 /* UIViewController+Extension.swift */; };
 		DF47EED222EEEEEF006EA435 /* MQScanResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF47EED122EEEEEF006EA435 /* MQScanResultVC.swift */; };
@@ -108,6 +112,10 @@
 		DF1C8BAE2303E95B00A6125A /* MQHomeTransitionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQHomeTransitionManager.swift; sourceTree = "<group>"; };
 		DF1C8BB02303E98D00A6125A /* MQHomeTransitionAnimated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQHomeTransitionAnimated.swift; sourceTree = "<group>"; };
 		DF1C8BB32304253000A6125A /* MQAuthorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQAuthorization.swift; sourceTree = "<group>"; };
+		DF1C8BD72305282100A6125A /* MQGenerateInputVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQGenerateInputVC.swift; sourceTree = "<group>"; };
+		DF1C8BD923052EF600A6125A /* MQGenerateTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQGenerateTool.swift; sourceTree = "<group>"; };
+		DF1C8BDB230532E700A6125A /* MQShowQRCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQShowQRCodeVC.swift; sourceTree = "<group>"; };
+		DF1C8BDE23056AB400A6125A /* UIImage+MM_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+MM_Extension.swift"; sourceTree = "<group>"; };
 		DF2DA56422FD4E57009AFB3A /* MQThroughScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQThroughScrollView.swift; sourceTree = "<group>"; };
 		DF34922F2302A03B00F9914F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
 		DF3492302302A03B00F9914F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
@@ -258,6 +266,7 @@
 				DFF6B99F22F7D126008423C2 /* UIView+Extension.swift */,
 				DFF6B9A122F7D8B2008423C2 /* DispatchTime+MM_Extension.swift */,
 				DFF6B9B222F9A190008423C2 /* NSDate+MM_Extension.swift */,
+				DF1C8BDE23056AB400A6125A /* UIImage+MM_Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -283,6 +292,7 @@
 		DF0361D822E9B956000B4C24 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				DF1C8BD6230527F700A6125A /* Generate */,
 				DF1C8BAD2303E94200A6125A /* Tranistion */,
 				DFF6B9A322F83C77008423C2 /* History */,
 				DF0361E522EA8F00000B4C24 /* Scan */,
@@ -365,6 +375,24 @@
 				DF1C8BB32304253000A6125A /* MQAuthorization.swift */,
 			);
 			path = Authorization;
+			sourceTree = "<group>";
+		};
+		DF1C8BD6230527F700A6125A /* Generate */ = {
+			isa = PBXGroup;
+			children = (
+				DF1C8BDD23053B3200A6125A /* Tool */,
+				DF1C8BD72305282100A6125A /* MQGenerateInputVC.swift */,
+				DF1C8BDB230532E700A6125A /* MQShowQRCodeVC.swift */,
+			);
+			path = Generate;
+			sourceTree = "<group>";
+		};
+		DF1C8BDD23053B3200A6125A /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				DF1C8BD923052EF600A6125A /* MQGenerateTool.swift */,
+			);
+			path = Tool;
 			sourceTree = "<group>";
 		};
 		DF47EED322EEEEFA006EA435 /* View */ = {
@@ -695,17 +723,21 @@
 				DF1C8BB12303E98D00A6125A /* MQHomeTransitionAnimated.swift in Sources */,
 				DF0361D722E9B5E0000B4C24 /* MQBaseNavigationViewController.swift in Sources */,
 				DF0361E222E9BC34000B4C24 /* MQImageLabelCVCell.swift in Sources */,
+				DF1C8BDF23056AB400A6125A /* UIImage+MM_Extension.swift in Sources */,
+				DF1C8BDC230532E700A6125A /* MQShowQRCodeVC.swift in Sources */,
 				DF1C8BB42304253000A6125A /* MQAuthorization.swift in Sources */,
 				DF47EED222EEEEEF006EA435 /* MQScanResultVC.swift in Sources */,
 				DFF6B9B622FA7534008423C2 /* MQDBManager.swift in Sources */,
 				DF0361D522E9B511000B4C24 /* MQTabbarController.swift in Sources */,
 				DF0361F022EB1BC5000B4C24 /* MQScanMarkView.swift in Sources */,
 				DF0361C522E82531000B4C24 /* UIKit+Extension.swift in Sources */,
+				DF1C8BDA23052EF600A6125A /* MQGenerateTool.swift in Sources */,
 				DF47EED622EF0C0C006EA435 /* MQScanTool.swift in Sources */,
 				DF515F5E22F403F70012FFFC /* MQWKWebCV.swift in Sources */,
 				DF03619222E8240E000B4C24 /* AppDelegate.swift in Sources */,
 				DF0361E722EA9894000B4C24 /* MQScanHomeVC.swift in Sources */,
 				DF515F6422F45BF40012FFFC /* MQToastView.swift in Sources */,
+				DF1C8BD82305282100A6125A /* MQGenerateInputVC.swift in Sources */,
 				DFF6B9A022F7D126008423C2 /* UIView+Extension.swift in Sources */,
 				DFF6B9B022F999DD008423C2 /* MQHistoryTVCell.swift in Sources */,
 				DF0361C622E82531000B4C24 /* UIColor+MM_Extension.swift in Sources */,

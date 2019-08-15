@@ -39,4 +39,31 @@ extension UIAlertController {
         alertC.addAction(confirmAction)
         return alertC
     }
+    
+    class func alertSheet(title: String?, message: String?, content: [String], cancelTitle: String?, confirmHandler: ((Int) -> Void)? = nil, cancelHandler: ((UIAlertAction) -> Void)? = nil) -> UIAlertController {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        var index = 0
+        for tStr in content {
+            let action = UIAlertAction(title: tStr, style: .default) { (_) in
+                guard let confirm = confirmHandler else {
+                    return
+                }
+                confirm(index)
+            }
+            index += 1
+            alert.addAction(action)
+        }
+        
+        if let cancelT = cancelTitle {
+            let action = UIAlertAction(title: cancelT, style: .cancel) { (act) in
+                guard let cancel = cancelHandler else {
+                    return
+                }
+                cancel(act)
+            }
+            alert.addAction(action)
+        }
+        
+        return alert
+    }
 }

@@ -12,6 +12,7 @@ import IBAnimatable
 enum ResultType: Int {
     case OnlyStr = 0,NetPage,WeChat,Alipay
 }
+
 class MQScanResultVC: MQBaseViewController {
     
     var resultData: [String]?

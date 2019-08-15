@@ -33,13 +33,12 @@ class MQHomeVC: MQBaseViewController {
     var transitionMan: MQHomeTransitionManager?
     
     lazy var photoLibraryBtn: UIButton = {
-        let btn = UIButton.buttonWith(title: nil, selectedTitle: nil, titleColor: nil, selectedColor: nil, image: "photo_library_btn", selectedImg: nil, target: self, selecter: #selector(handleBtnClick(sender:)), tag: 10)
-        let y = MQScreenHeight - MQHomeIndicatorHeight - 44 - 48
-        btn.frame = CGRect(x: 0, y: y, width: 48, height: 48)
-        btn.mm_centerX = self.view.mm_width * 0.25
-        btn.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.fill
-        btn.contentVerticalAlignment = UIControl.ContentVerticalAlignment.fill
-        btn.layer.cornerRadius = 24
+        let btn = createBtn(type: 0)
+        return btn
+    }()
+    
+    lazy var generateQRBtn: UIButton = {
+        let btn = createBtn(type: 1)
         return btn
     }()
     
@@ -62,8 +61,11 @@ class MQHomeVC: MQBaseViewController {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.setBackgroundImage(UIColor.mm_colorImgHex(color_vaule: 0x2882fc,alpha: 0.1), for: UIBarPosition.any, barMetrics: .default)
         self.navigationController?.delegate = nil
-//        let naviImg = self.getNaviBarBackgroundImg()
-//        naviImg?.image = UIColor.mm_colorImgHex(color_vaule: 0x2882fc,alpha: 0.5)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.delegate = nil
     }
     
     func setupLayout() -> () {
@@ -79,16 +81,22 @@ class MQHomeVC: MQBaseViewController {
         layout.minimumInteritemSpacing = 0
     }
     
+    /// 处理点击事件
+    ///
+    /// - Parameter sender: btn
     @objc func handleBtnClick(sender: UIButton) -> Void {
         if sender.tag == 10 {
             MQAuthorization.checkPhotoLibraryPermission(authorizedBlock: { (success) in
                 let pickerVC = UIImagePickerController()
                 pickerVC.delegate = self.scanTool
-                pickerVC.sourceType = .savedPhotosAlbum
+                pickerVC.sourceType = .photoLibrary
                 self.navigationController?.present(pickerVC, animated: true, completion: nil)
             }) { (deninit) in
                 self.showSettingAlert(content: "需要开启访问相册权限")
             }
+        } else {
+            let showVC:MQGenerateInputVC = UIStoryboard(name: "MQHome", bundle: nil).instantiateViewController(withIdentifier: "MQGenerateInputVC") as! MQGenerateInputVC
+            self.navigationController?.pushViewController(showVC, animated: true)
         }
     }
     
@@ -118,6 +126,7 @@ extension MQHomeVC {
         }
         view.addSubview(scanClickView!)
         view.addSubview(photoLibraryBtn)
+        view.addSubview(generateQRBtn)
     }
     
     func pushToVC(index: Int) -> Void {
@@ -127,6 +136,17 @@ extension MQHomeVC {
         let vcStr = pushArray[index]
         let vc = UIStoryboard(name: "MQHome", bundle: nil).instantiateViewController(withIdentifier: vcStr)
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func createBtn(type: Int) -> UIButton {
+        let btn = UIButton.buttonWith(title: nil, selectedTitle: nil, titleColor: nil, selectedColor: nil, image: type == 0 ? "photo_library_btn" : "generate_qrcode_btn", selectedImg: nil, target: self, selecter: #selector(handleBtnClick(sender:)), tag: type == 0 ? 10 : 11)
+        let y = MQScreenHeight - MQHomeIndicatorHeight - 44 - 48
+        btn.frame = CGRect(x: 0, y: y, width: 48, height: 48)
+        btn.mm_centerX = type == 0 ? self.view.mm_width * 0.25 : self.view.mm_width * 0.75
+        btn.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.fill
+        btn.contentVerticalAlignment = UIControl.ContentVerticalAlignment.fill
+        btn.layer.cornerRadius = 24
+        return btn
     }
 }
 

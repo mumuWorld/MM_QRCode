@@ -18,10 +18,8 @@ class MQHistoryTVCell: UITableViewCell {
     
     @IBOutlet weak var separatorLineView: UIView!
     
-    var _historyModel:MQHistoryScanModel?
     var historyModel: MQHistoryScanModel? {
-        set {
-            _historyModel = newValue
+        willSet {
             guard let model = newValue else { return }
             
             if let remark = model.remark,remark.count > 0 {
@@ -35,11 +33,10 @@ class MQHistoryTVCell: UITableViewCell {
             }
             
             if 0 == model.contentType { //文本
-                
+                iconImg.image = UIImage.init(named: "text_type_img")
+            } else if 1 == model.contentType {
+                iconImg.image = UIImage.init(named: "net_type_img")
             }
-        }
-        get {
-            return _historyModel
         }
     }
     

@@ -34,12 +34,14 @@ class MQScanHomeVC: MQBaseViewController {
         scanMaskView.photoframeLineW = 2;
         return scanMaskView
     }()
+    
     var rightItem: UIBarButtonItem {
         get {
             let _rightItem = UIBarButtonItem.barButtomItem(title: "相册", selectedTitle: nil, titleColor: MQMainColor, selectedColor: nil, image: nil, selectedImg: nil, target: self, selecter: #selector(handleBtnClick(sender:)))
             return _rightItem
         }
     }
+    
     var saveCheckStatus:AVAuthorizationStatus?
     lazy var scanTool:MQScanTool = {
         let tool = MQScanTool()
@@ -78,7 +80,7 @@ class MQScanHomeVC: MQBaseViewController {
         MQAuthorization.checkPhotoLibraryPermission(authorizedBlock: { (success) in
             let pickerVC = UIImagePickerController()
             pickerVC.delegate = self.scanTool
-            pickerVC.sourceType = .savedPhotosAlbum
+            pickerVC.sourceType = .photoLibrary
             self.navigationController?.present(pickerVC, animated: true, completion: nil)
         }) { (deninit) in
             self.showSettingAlert(content: "需要开启访问相册权限")

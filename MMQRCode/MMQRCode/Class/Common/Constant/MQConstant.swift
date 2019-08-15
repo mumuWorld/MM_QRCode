@@ -26,6 +26,9 @@ let MQStatusBarHeight = UIDevice.MQIsIphoneXAll ? 44.0 : 20.0
 
 let MQTabBarHeight = UIDevice.MQIsIphoneXAll ? 83.0 : 49.0
 
+let MQPhotoLibraryName: String = "我的二维码"
+
+
 extension UIDevice {
    class var MQIsIphoneXAll:Bool {
         let maxH = max(MQScreenWidth, MQScreenHeight)
