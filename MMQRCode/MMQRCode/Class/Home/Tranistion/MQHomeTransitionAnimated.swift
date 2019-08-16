@@ -23,17 +23,19 @@ class MQHomeTransitionAnimated: NSObject, UIViewControllerAnimatedTransitioning 
         let containerView = transitionContext.containerView
         
         let toVC = transitionContext.viewController(forKey: .to)
-        let toView = toVC?.view
-        toView?.frame = containerView.bounds
-        containerView.addSubview(toView!)
+
         
         let fromView = transitionContext.viewController(forKey: .from)?.view
         fromView?.frame = containerView.bounds
         containerView.addSubview(fromView!)
         
-        tmpToView = UIView(frame: containerView.bounds)
-        tmpToView!.backgroundColor = UIColor.mm_colorFromHex(color_vaule: 0x2882fc, alpha: 0.6)
-        containerView.addSubview(tmpToView!)
+        let toView = toVC?.view
+        toView?.frame = containerView.bounds
+        containerView.addSubview(toView!)
+        
+//        tmpToView = UIView(frame: containerView.bounds)
+//        tmpToView!.backgroundColor = UIColor.mm_colorFromHex(color_vaule: 0x2882fc, alpha: 0.6)
+//        containerView.addSubview(tmpToView!)
         
         guard let tStartRect = startRect else {
             return
@@ -48,7 +50,8 @@ class MQHomeTransitionAnimated: NSObject, UIViewControllerAnimatedTransitioning 
         let startPath: UIBezierPath = UIBezierPath(roundedRect: tStartRect, cornerRadius: tStartRect.mm_width)
         let endPath = UIBezierPath(arcCenter: CGPoint(x: center_x, y: center_y), radius: radius, startAngle: 0, endAngle: CGFloat(Double.pi * 2), clockwise: true)
         maskLayer = CAShapeLayer()
-        tmpToView!.layer.mask = maskLayer
+//        tmpToView!.layer.mask = maskLayer
+        toView?.layer.mask = maskLayer
         
         let maskLayerAnimate: CABasicAnimation = CABasicAnimation(keyPath: "path")
         maskLayerAnimate.fromValue = startPath.cgPath
@@ -68,20 +71,20 @@ class MQHomeTransitionAnimated: NSObject, UIViewControllerAnimatedTransitioning 
 extension MQHomeTransitionAnimated: CAAnimationDelegate {
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         if maskLayer.animation(forKey: "maskLayerAnimate") == anim {
-            let fromView = anim.value(forKey: "fromView") as? UIView
-                
-        
+//            let fromView = anim.value(forKey: "fromView") as? UIView
+            
             UIView.animate(withDuration: 0.2, animations: {
-                self.tmpToView?.alpha = 0
-                fromView!.alpha = 0
+//                self.tmpToView?.alpha = 0
+//                fromView!.alpha = 0
             }) { (_) in
-                self.maskLayer.removeAllAnimations()
-                self.tmpToView?.removeFromSuperview()
-                self.tmpToView = nil
+//                self.maskLayer.removeAllAnimations()
+//                self.tmpToView?.removeFromSuperview()
+//                self.tmpToView = nil
+                self.maskLayer.removeFromSuperlayer()
                 if let context = anim.value(forKey: "transitionContext") as? UIViewControllerContextTransitioning {
                     context.completeTransition(true)
                 }
-                fromView!.alpha = 1
+//                fromView!.alpha = 1
             }
         }
     }

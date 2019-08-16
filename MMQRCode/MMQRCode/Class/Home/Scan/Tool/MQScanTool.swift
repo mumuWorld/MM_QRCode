@@ -162,6 +162,10 @@ extension MQScanTool {
             preLayer.frame = tPreview.bounds
 //            UIView.animate(withDuration: 0.2) {
                 tPreview.layer.insertSublayer(self.preLayer, at: 0)
+            tPreview.alpha = 0
+            UIView.animate(withDuration: 0.2) {
+                tPreview.alpha = 1
+            }
 //            }
         }
         

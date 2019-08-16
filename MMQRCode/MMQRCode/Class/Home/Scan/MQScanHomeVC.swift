@@ -13,7 +13,6 @@ import Photos
 class MQScanHomeVC: MQBaseViewController {
 //    private var _rightItem: UIBarButtonItem?
     
-    var scanBgView: UIView!
     var scanLineImgView: UIImageView!
     var scanLineImg_bottom: NSLayoutConstraint!
     

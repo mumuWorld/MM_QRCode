@@ -96,9 +96,7 @@ class MQScanMarkView: UIView {
         self.addGestureRecognizer(zoomTouch)
         //单击手势
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(handleMinScalleGes(sender:)))
-        self.addGestureRecognizer(singleTap)
-        
-        
+        self.addGestureRecognizer(singleTap)        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -109,6 +107,7 @@ class MQScanMarkView: UIView {
         super.awakeFromNib()
         
     }
+    
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         // Drawing code
@@ -116,6 +115,7 @@ class MQScanMarkView: UIView {
         addSubview(self.scanLineImg)
         addSubview(self.auctionLabel)
     }
+    
     func drawScanRect() -> Void {
         let sizeRetangle = scanRetangleRect?.size
         let minRetangleY = scanRetangleRect?.mm_y
@@ -179,6 +179,7 @@ class MQScanMarkView: UIView {
     }
     deinit {
         NotificationCenter.default.removeObserver(self)
+        MQPrintLog(message: "scanMaskView")
     }
 }
 //动画控制
