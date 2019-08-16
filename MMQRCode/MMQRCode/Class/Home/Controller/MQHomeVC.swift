@@ -13,7 +13,7 @@ class MQHomeVC: MQBaseViewController {
     @IBOutlet weak var mainCollectionView: UICollectionView!
     var pushArray: Array<String> {
         get {
-            return ["MQScanHomeVC","MQHistoryVC","MQScanHomeVC","MQScanHomeVC"]
+            return ["MQScanHomeVC","MQHistoryVC","MQGenerateInputVC","MQHistoryVC"]
         }
     }
     
@@ -135,6 +135,10 @@ extension MQHomeVC {
         }
         let vcStr = pushArray[index]
         let vc = UIStoryboard(name: "MQHome", bundle: nil).instantiateViewController(withIdentifier: vcStr)
+        if index == 3 {            
+            (vc as! MQHistoryVC).viewType = HistoryType(rawValue: 1)!
+//            vc.setValue(1, forKeyPath: "viewType")
+        }
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -182,8 +186,9 @@ extension MQHomeVC: UICollectionViewDataSource {
 
 extension MQHomeVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vcStr = pushArray[indexPath.row]
-        let vc = UIStoryboard(name: "MQHome", bundle: nil).instantiateViewController(withIdentifier: vcStr)
-        self.navigationController?.pushViewController(vc, animated: true)
+        pushToVC(index: indexPath.row)
+//        let vcStr = pushArray[indexPath.row]
+//        let vc = UIStoryboard(name: "MQHome", bundle: nil).instantiateViewController(withIdentifier: vcStr)
+//        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -7,8 +7,8 @@
 //
 
 import UIKit
-enum HistoryType {
-    case ScanHistory,CreateHistory
+enum HistoryType: Int {
+    case ScanHistory = 0,CreateHistory
 }
 class MQHistoryVC: UIViewController {
 
@@ -42,7 +42,6 @@ class MQHistoryVC: UIViewController {
         mainScrollView.bounces = false
         mainScrollView.isScrollEnabled = false
         
-        scrollToIndexView(index: segmentControl.selectedSegmentIndex)
         
         let callBack: UpdataCallBack = {[weak self] (results: Array<MQHistoryScanModel>?, generateR: Array<MQHistoryGenerateModel>?) -> Void in
             if let scanResult = results, scanResult.count > 0 {
@@ -62,8 +61,8 @@ class MQHistoryVC: UIViewController {
             }
         }
         self.historyViewModel = MQHistoryViewModel(callback: callBack)
-        historyViewModel?.fetchDBData(page: currentPage, maxPage: maxPage)
-        
+        scrollToIndexView(index: viewType.rawValue, changeSegment: true)
+
     }
     
     @IBAction func tipsBtnClick(_ sender: Any) {
@@ -71,25 +70,29 @@ class MQHistoryVC: UIViewController {
     }
     
     @IBAction func segmentValueChange(_ sender: UISegmentedControl) {
-        scrollToIndexView(index: sender.selectedSegmentIndex)
-        mainScrollView.setContentOffset(CGPoint(x: CGFloat(sender.selectedSegmentIndex) * mainScrollView.mm_width, y: 0), animated: true)
+        scrollToIndexView(index: sender.selectedSegmentIndex, changeSegment: true)
     }
 }
 extension MQHistoryVC {
 
     
-    func scrollToIndexView(index: Int) -> Void {
+    func scrollToIndexView(index: Int, changeSegment: Bool = false) -> Void {
         if index == 0 {
             if scanViewList == nil {
+                historyViewModel?.fetchDBData(page: currentPage, maxPage: maxPage)
                 scanViewList = createTableViewWith(index)
                 self.mainScrollView.addSubview(scanViewList!)
             }
         } else {
             if createViewList == nil {
-                historyViewModel?.fetchGenerateData(page: currentPage, maxPage: maxPage)
+                historyViewModel?.fetchGenerateData(page: currentCreatePage, maxPage: maxPage)
                 createViewList = createTableViewWith(index)
                 self.mainScrollView.addSubview(createViewList!)
             }
+        }
+        mainScrollView.setContentOffset(CGPoint(x: CGFloat(index) * mainScrollView.mm_width, y: 0), animated: true)
+        if changeSegment {
+            segmentControl.selectedSegmentIndex = index
         }
     }
     
