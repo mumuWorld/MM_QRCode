@@ -37,6 +37,9 @@
 		DF1C8BDA23052EF600A6125A /* MQGenerateTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1C8BD923052EF600A6125A /* MQGenerateTool.swift */; };
 		DF1C8BDC230532E700A6125A /* MQShowQRCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1C8BDB230532E700A6125A /* MQShowQRCodeVC.swift */; };
 		DF1C8BDF23056AB400A6125A /* UIImage+MM_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1C8BDE23056AB400A6125A /* UIImage+MM_Extension.swift */; };
+		DF1C8CB02306ABE300A6125A /* MQLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1C8CAF2306ABE300A6125A /* MQLoadingView.swift */; };
+		DF1C8CB22306ABF200A6125A /* MQLoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DF1C8CB12306ABF200A6125A /* MQLoadingView.xib */; };
+		DF1C8CB72306C31B00A6125A /* MQFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1C8CB62306C31B00A6125A /* MQFileManager.swift */; };
 		DF2DA56522FD4E57009AFB3A /* MQThroughScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2DA56422FD4E57009AFB3A /* MQThroughScrollView.swift */; };
 		DF47EED022EEE7CB006EA435 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF47EECF22EEE7CB006EA435 /* UIViewController+Extension.swift */; };
 		DF47EED222EEEEEF006EA435 /* MQScanResultVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF47EED122EEEEEF006EA435 /* MQScanResultVC.swift */; };
@@ -116,6 +119,9 @@
 		DF1C8BD923052EF600A6125A /* MQGenerateTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQGenerateTool.swift; sourceTree = "<group>"; };
 		DF1C8BDB230532E700A6125A /* MQShowQRCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQShowQRCodeVC.swift; sourceTree = "<group>"; };
 		DF1C8BDE23056AB400A6125A /* UIImage+MM_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+MM_Extension.swift"; sourceTree = "<group>"; };
+		DF1C8CAF2306ABE300A6125A /* MQLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQLoadingView.swift; sourceTree = "<group>"; };
+		DF1C8CB12306ABF200A6125A /* MQLoadingView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MQLoadingView.xib; sourceTree = "<group>"; };
+		DF1C8CB62306C31B00A6125A /* MQFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQFileManager.swift; sourceTree = "<group>"; };
 		DF2DA56422FD4E57009AFB3A /* MQThroughScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQThroughScrollView.swift; sourceTree = "<group>"; };
 		DF34922F2302A03B00F9914F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
 		DF3492302302A03B00F9914F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
@@ -350,6 +356,8 @@
 		DF0361EC22EADEBD000B4C24 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				DF1C8CB82306C32200A6125A /* FileManager */,
+				DF1C8CAE2306ABCA00A6125A /* Loading */,
 				DF1C8BB22304250300A6125A /* Authorization */,
 				DFF6B9B422FA751F008423C2 /* MQDB */,
 				DF515F6222F45BC90012FFFC /* Toast */,
@@ -393,6 +401,23 @@
 				DF1C8BD923052EF600A6125A /* MQGenerateTool.swift */,
 			);
 			path = Tool;
+			sourceTree = "<group>";
+		};
+		DF1C8CAE2306ABCA00A6125A /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				DF1C8CAF2306ABE300A6125A /* MQLoadingView.swift */,
+				DF1C8CB12306ABF200A6125A /* MQLoadingView.xib */,
+			);
+			path = Loading;
+			sourceTree = "<group>";
+		};
+		DF1C8CB82306C32200A6125A /* FileManager */ = {
+			isa = PBXGroup;
+			children = (
+				DF1C8CB62306C31B00A6125A /* MQFileManager.swift */,
+			);
+			path = FileManager;
 			sourceTree = "<group>";
 		};
 		DF47EED322EEEEFA006EA435 /* View */ = {
@@ -586,6 +611,7 @@
 				DFF6B9B122F999DD008423C2 /* MQHistoryTVCell.xib in Resources */,
 				DF03619C22E8240F000B4C24 /* LaunchScreen.storyboard in Resources */,
 				DF03619922E8240F000B4C24 /* Assets.xcassets in Resources */,
+				DF1C8CB22306ABF200A6125A /* MQLoadingView.xib in Resources */,
 				DF03619722E8240E000B4C24 /* Main.storyboard in Resources */,
 				DF0361DF22E9B9DC000B4C24 /* MQHome.storyboard in Resources */,
 				DFF6B9A722F842E9008423C2 /* MQHistoryVC.storyboard in Resources */,
@@ -731,9 +757,11 @@
 				DF0361D522E9B511000B4C24 /* MQTabbarController.swift in Sources */,
 				DF0361F022EB1BC5000B4C24 /* MQScanMarkView.swift in Sources */,
 				DF0361C522E82531000B4C24 /* UIKit+Extension.swift in Sources */,
+				DF1C8CB02306ABE300A6125A /* MQLoadingView.swift in Sources */,
 				DF1C8BDA23052EF600A6125A /* MQGenerateTool.swift in Sources */,
 				DF47EED622EF0C0C006EA435 /* MQScanTool.swift in Sources */,
 				DF515F5E22F403F70012FFFC /* MQWKWebCV.swift in Sources */,
+				DF1C8CB72306C31B00A6125A /* MQFileManager.swift in Sources */,
 				DF03619222E8240E000B4C24 /* AppDelegate.swift in Sources */,
 				DF0361E722EA9894000B4C24 /* MQScanHomeVC.swift in Sources */,
 				DF515F6422F45BF40012FFFC /* MQToastView.swift in Sources */,

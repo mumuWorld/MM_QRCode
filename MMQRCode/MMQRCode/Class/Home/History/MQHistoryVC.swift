@@ -32,7 +32,7 @@ class MQHistoryVC: UIViewController {
     var currentCreatePage = 0
     
     lazy var scanListArr: [MQHistoryScanModel] = Array()
-    lazy var createListArr: [MQHistoryScanModel] = Array()
+    lazy var createListArr: [MQHistoryGenerateModel] = Array()
 
     
     override func viewDidLoad() {
@@ -44,16 +44,22 @@ class MQHistoryVC: UIViewController {
         
         scrollToIndexView(index: segmentControl.selectedSegmentIndex)
         
-        let callBack: UpdataCallBack = {[weak self] (results: Array<MQHistoryScanModel>) -> Void in
-            if results.count > 0 {
+        let callBack: UpdataCallBack = {[weak self] (results: Array<MQHistoryScanModel>?, generateR: Array<MQHistoryGenerateModel>?) -> Void in
+            if let scanResult = results, scanResult.count > 0 {
                 if self?.currentPage == 0 {
-                    self?.scanListArr = results
+                    self?.scanListArr = scanResult
                 } else {
-                    self?.scanListArr.append(contentsOf: results)
+                    self?.scanListArr.append(contentsOf: scanResult)
                 }
+                self?.scanViewList?.reloadData()
+            } else if let generateResult = generateR, generateResult.count > 0 {
+                if self?.currentPage == 0 {
+                    self?.createListArr = generateResult
+                } else {
+                    self?.createListArr.append(contentsOf: generateResult)
+                }
+                self?.createViewList?.reloadData()
             }
-            
-            self?.scanViewList?.reloadData()
         }
         self.historyViewModel = MQHistoryViewModel(callback: callBack)
         historyViewModel?.fetchDBData(page: currentPage, maxPage: maxPage)
@@ -66,6 +72,7 @@ class MQHistoryVC: UIViewController {
     
     @IBAction func segmentValueChange(_ sender: UISegmentedControl) {
         scrollToIndexView(index: sender.selectedSegmentIndex)
+        mainScrollView.setContentOffset(CGPoint(x: CGFloat(sender.selectedSegmentIndex) * mainScrollView.mm_width, y: 0), animated: true)
     }
 }
 extension MQHistoryVC {
@@ -79,6 +86,7 @@ extension MQHistoryVC {
             }
         } else {
             if createViewList == nil {
+                historyViewModel?.fetchGenerateData(page: currentPage, maxPage: maxPage)
                 createViewList = createTableViewWith(index)
                 self.mainScrollView.addSubview(createViewList!)
             }
@@ -93,12 +101,12 @@ extension MQHistoryVC {
         return tableView
     }
     
-    func getFitArray(tableView: UITableView) -> [MQHistoryScanModel] {
-        if tableView == scanViewList {
-            return scanListArr
-        }
-        return createListArr
-    }
+//    func getFitArray(tableView: UITableView) -> [MQHistoryScanModel] {
+//        if tableView == scanViewList {
+//            return scanListArr
+//        }
+//        return createListArr
+//    }
 }
 
 extension MQHistoryVC: UITableViewDataSource {
@@ -112,11 +120,18 @@ extension MQHistoryVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MQHistoryTVCell", for: indexPath) as! MQHistoryTVCell
-        let models: [MQHistoryScanModel] = getFitArray(tableView: tableView)
-        let model: MQHistoryScanModel = models[indexPath.row]
+
+        if tableView == scanViewList {
+//            let models: [MQHistoryScanModel] = (tableView: tableView)
+            let model: MQHistoryScanModel = scanListArr[indexPath.row]
+            cell.historyModel = model
+            cell.separatorLineView.isHidden = indexPath.row + 1 == scanListArr.count
+        } else {
+            let model: MQHistoryGenerateModel = createListArr[indexPath.row]
+            cell.generateModel = model
+            cell.separatorLineView.isHidden = indexPath.row + 1 == createListArr.count
+        }
         
-        cell.historyModel = model
-        cell.separatorLineView.isHidden = indexPath.row + 1 == models.count
 //        let panGes = tableView.superview?.gestureRecognizers?.first
 //        panGes?.require(toFail: cell.gestureRecognizers!.first!)
         return cell
@@ -161,27 +176,36 @@ extension MQHistoryVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let model: MQHistoryScanModel = getFitArray(tableView: tableView)[indexPath.row]
-        let resultVC:MQScanResultVC = UIStoryboard(name: "MQHome", bundle: nil).instantiateViewController(withIdentifier: "MQScanResultVC") as! MQScanResultVC
-        resultVC.needToSaveDB = false
-        resultVC.resultData = [model.scanContent!]
-        self.navigationController?.pushViewController(resultVC, animated: true)
+        if tableView == scanViewList {
+            let model: MQHistoryScanModel = scanListArr[indexPath.row]
+            let resultVC: MQScanResultVC = UIStoryboard(name: "MQHome", bundle: nil).instantiateViewController(withIdentifier: "MQScanResultVC") as! MQScanResultVC
+            resultVC.needToSaveDB = false
+            resultVC.resultData = [model.scanContent!]
+            self.navigationController?.pushViewController(resultVC, animated: true)
+        } else {
+            let model: MQHistoryGenerateModel = createListArr[indexPath.row]
+            let resultVC: MQShowQRCodeVC = UIStoryboard(name: "MQHome", bundle: nil).instantiateViewController(withIdentifier: "MQShowQRCodeVC") as! MQShowQRCodeVC
+            resultVC.sourceContent = model.createContent
+            resultVC.needToSaveDB = false
+            self.navigationController?.pushViewController(resultVC, animated: true)
+        }
+
     }
 }
 
-extension MQHistoryVC: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView == mainScrollView {
-            scanViewList?.isScrollEnabled = false
-            createViewList?.isScrollEnabled = false
-        }
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if scrollView == mainScrollView {
-            scanViewList?.isScrollEnabled = true
-            createViewList?.isScrollEnabled = true
-        }
-    }
-}
+//extension MQHistoryVC: UIScrollViewDelegate {
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        if scrollView == mainScrollView {
+//            scanViewList?.isScrollEnabled = false
+//            createViewList?.isScrollEnabled = false
+//        }
+//    }
+//
+//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+//        if scrollView == mainScrollView {
+//            scanViewList?.isScrollEnabled = true
+//            createViewList?.isScrollEnabled = true
+//        }
+//    }
+//}
 

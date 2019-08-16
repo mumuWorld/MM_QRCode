@@ -8,7 +8,7 @@
 
 import UIKit
 
-typealias UpdataCallBack = (Array<MQHistoryScanModel>)->(Void)
+typealias UpdataCallBack = (Array<MQHistoryScanModel>?, Array<MQHistoryGenerateModel>?)->(Void)
 
 class MQHistoryViewModel {
     
@@ -18,10 +18,19 @@ class MQHistoryViewModel {
     
     lazy var resultTool = MQScanResultTool()
     
+    lazy var generateTool = MQGenerateTool()
+    
     func fetchDBData(page: Int,maxPage: Int) -> Void {
         if let callBack = updateModelCallBack  {
             let results = resultTool.fetchAll(limit: maxPage, startPage: page)
-            callBack(results)
+            callBack(results,nil)
+        }
+    }
+    
+    func fetchGenerateData(page: Int, maxPage: Int) -> Void {
+        if let callBack = updateModelCallBack  {
+            let results = generateTool.fetchAll(limit: maxPage, startPage: page)
+            callBack(nil,results)
         }
     }
     

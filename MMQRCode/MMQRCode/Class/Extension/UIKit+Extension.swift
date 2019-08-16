@@ -128,6 +128,34 @@ extension CGRect {
             size.width = newValue
         }
     }
+    
+    var mm_centerX: CGFloat {
+        get {
+            return self.origin.x + self.size.width * 0.5
+        }
+        set {
+            self.origin.x = newValue - self.size.width * 0.5
+        }
+    }
+    
+    var mm_centerY: CGFloat {
+        get {
+            return self.origin.y + self.size.height * 0.5
+        }
+        set {
+            self.origin.y = newValue - self.size.height * 0.5
+        }
+    }
+    
+    var mm_center: CGPoint {
+        get {
+            return CGPoint(x: mm_centerX, y: mm_centerY)
+        }
+        set {
+            mm_centerX = newValue.x
+            mm_centerY = newValue.y
+        }
+    }
 }
 
 extension UIButton {

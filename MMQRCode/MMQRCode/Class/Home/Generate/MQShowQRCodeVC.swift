@@ -13,6 +13,8 @@ class MQShowQRCodeVC: MQBaseViewController {
     
     var sourceContent: String?
     
+    var needToSaveDB: Bool = false
+    
     @IBOutlet weak var showQRImg: UIImageView!
     
     @IBOutlet weak var contentLabel: UILabel!
@@ -89,6 +91,7 @@ extension MQShowQRCodeVC {
                 }
             }
     }
+    
     func saveToCollection(placeholder: PHObjectPlaceholder?) -> Void {
         //判断是否创建图片库成功
         guard let photoObject = placeholder else { return }
@@ -142,5 +145,14 @@ extension MQShowQRCodeVC {
         
         let img = MQGenerateTool.generateImg(content: sourceData)
         self.showQRImg.image = img
+        //保存到数据库
+        DispatchQueue.main.async {
+            guard let saveImg = UIImage.mm_imageWithView(view: self.showQRImg), self.needToSaveDB else {
+                return
+            }
+            let generate = MQGenerateTool()
+            generate.saveGenerateHistory(content: sourceData, type: type.rawValue, remark: "", saveImg: saveImg)
+        }
+        
     }
 }

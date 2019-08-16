@@ -42,8 +42,8 @@ class MQHomeTransitionAnimated: NSObject, UIViewControllerAnimatedTransitioning 
         }
         let center_x = tStartRect.mm_x + tStartRect.mm_width * 0.5
         let center_y = tStartRect.mm_y + tStartRect.mm_width * 0.5
-        let maxX = max(tStartRect.mm_x, containerView.mm_width - tStartRect.mm_x)
-        let maxY = max(tStartRect.mm_y, containerView.mm_height - tStartRect.mm_y)
+        let maxX = max(center_x, containerView.mm_width - center_x)
+        let maxY = max(center_y, containerView.mm_height - center_y)
         // x^2 + y^2 开根号
         let radius = sqrt(pow(maxX, 2) + pow(maxY, 2))
         

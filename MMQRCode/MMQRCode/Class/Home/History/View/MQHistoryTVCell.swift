@@ -40,6 +40,27 @@ class MQHistoryTVCell: UITableViewCell {
         }
     }
     
+    var generateModel: MQHistoryGenerateModel? {
+        willSet {
+            guard let model = newValue else { return }
+            if let remark = model.remark,remark.count > 0 {
+                self.contentLabel.text = remark
+            } else {
+                self.contentLabel.text = model.createContent
+            }
+            
+            if let createTime = model.createTime, createTime.count > 0 {
+                self.timeLabel.text = createTime
+            }
+            
+            if 0 == model.contentType { //文本
+                iconImg.image = UIImage.init(named: "text_type_img")
+            } else if 1 == model.contentType {
+                iconImg.image = UIImage.init(named: "net_type_img")
+            }
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

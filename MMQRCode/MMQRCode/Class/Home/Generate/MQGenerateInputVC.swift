@@ -34,11 +34,12 @@ class MQGenerateInputVC: MQBaseViewController {
             return
         }
         guard content.count < 150 else {
-            MQToastView.show(message: "不能超过150个字符,可制作活码")
+            MQToastView.show(message: "文字太长,请保持在150个字符以内")
             return
         }
         let showVC:MQShowQRCodeVC = UIStoryboard(name: "MQHome", bundle: nil).instantiateViewController(withIdentifier: "MQShowQRCodeVC") as! MQShowQRCodeVC
             showVC.sourceContent = content
+        showVC.needToSaveDB = true
         self.navigationController?.pushViewController(showVC, animated: true)
     }
 }

@@ -14,6 +14,7 @@ let _remark = Expression<String>("remark_name")
 let _contentType = Expression<Int>("content_type")
 let _content = Expression<String>("scan_content")
 let _id = Expression<Int>("id")
+let _saveImg = Expression<String>("_saveImg")//保存图片的名称
 
 class MQScanResultTool {
     var table: Table?
@@ -70,6 +71,7 @@ class MQScanResultTool {
             if let tResults = results {
                 for result in tResults {
                     var model = MQHistoryScanModel()
+                    model.scanID = result[_id]
                     model.contentType = result[_contentType]
                     model.remark = result[_remark]
                     model.scanContent = result[_content]
