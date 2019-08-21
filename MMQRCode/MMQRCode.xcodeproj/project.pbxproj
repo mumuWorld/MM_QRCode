@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		334A892FE910CE21C049A852 /* Pods_MMQRCodeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86643076BD0EEEB8637B21E2 /* Pods_MMQRCodeTests.framework */; };
 		6D9027B9D5A61346D6FA768E /* Pods_MMQRCode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7CD702BF37464F758CE57B2 /* Pods_MMQRCode.framework */; };
+		B49D173D230D838900AFAFDA /* MQHomeAnimateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49D173C230D838900AFAFDA /* MQHomeAnimateView.swift */; };
 		B4DD2C77C266B5B78B5E0771 /* Pods_MMQRCodeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1435A3F28CDDF12E5BA5027D /* Pods_MMQRCodeUITests.framework */; };
 		DF03619222E8240E000B4C24 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF03619122E8240E000B4C24 /* AppDelegate.swift */; };
 		DF03619722E8240E000B4C24 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF03619522E8240E000B4C24 /* Main.storyboard */; };
@@ -83,6 +84,7 @@
 		4FD31B687E25FA1787DC723A /* Pods-MMQRCode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MMQRCode.release.xcconfig"; path = "Pods/Target Support Files/Pods-MMQRCode/Pods-MMQRCode.release.xcconfig"; sourceTree = "<group>"; };
 		86643076BD0EEEB8637B21E2 /* Pods_MMQRCodeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MMQRCodeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7CD702BF37464F758CE57B2 /* Pods_MMQRCode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MMQRCode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B49D173C230D838900AFAFDA /* MQHomeAnimateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQHomeAnimateView.swift; sourceTree = "<group>"; };
 		C82C56921FE65A0A80E0449D /* Pods-MMQRCodeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MMQRCodeTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MMQRCodeTests/Pods-MMQRCodeTests.release.xcconfig"; sourceTree = "<group>"; };
 		D98646CCAAB331BE0B78A9E7 /* Pods-MMQRCodeUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MMQRCodeUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MMQRCodeUITests/Pods-MMQRCodeUITests.release.xcconfig"; sourceTree = "<group>"; };
 		DD9E4483A6A7741F614E6138 /* Pods-MMQRCodeUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MMQRCodeUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MMQRCodeUITests/Pods-MMQRCodeUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -322,6 +324,7 @@
 			children = (
 				DF1C8BAB2303BE8C00A6125A /* MQScanClickView.swift */,
 				DF0361E122E9BC34000B4C24 /* MQImageLabelCVCell.swift */,
+				B49D173C230D838900AFAFDA /* MQHomeAnimateView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -767,6 +770,7 @@
 				DF515F6422F45BF40012FFFC /* MQToastView.swift in Sources */,
 				DF1C8BD82305282100A6125A /* MQGenerateInputVC.swift in Sources */,
 				DFF6B9A022F7D126008423C2 /* UIView+Extension.swift in Sources */,
+				B49D173D230D838900AFAFDA /* MQHomeAnimateView.swift in Sources */,
 				DFF6B9B022F999DD008423C2 /* MQHistoryTVCell.swift in Sources */,
 				DF0361C622E82531000B4C24 /* UIColor+MM_Extension.swift in Sources */,
 				DFF6B9A522F83D18008423C2 /* MQHistoryVC.swift in Sources */,
@@ -961,7 +965,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.cangbaopai.mumu.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -981,7 +985,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.cangbaopai.mumu.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

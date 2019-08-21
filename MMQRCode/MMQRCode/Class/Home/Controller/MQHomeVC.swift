@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 class MQHomeVC: MQBaseViewController {
 
@@ -48,6 +49,11 @@ class MQHomeVC: MQBaseViewController {
         return tool
     }()
     
+    lazy var animateView: MQHomeAnimateView = MQHomeAnimateView()
+    
+    /// 缓存请求相册权限
+    var cachePhotoPremission = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
@@ -63,9 +69,21 @@ class MQHomeVC: MQBaseViewController {
         self.navigationController?.delegate = nil
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+//        requestPhotoPremission()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.delegate = nil
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+//        if animateView.superview != nil {
+//            animateView.stopAnimate()
+//        }
     }
     
     func setupLayout() -> () {
@@ -87,11 +105,13 @@ class MQHomeVC: MQBaseViewController {
     @objc func handleBtnClick(sender: UIButton) -> Void {
         if sender.tag == 10 {
             MQAuthorization.checkPhotoLibraryPermission(authorizedBlock: { (success) in
+                self.cachePhotoPremission = true
                 let pickerVC = UIImagePickerController()
                 pickerVC.delegate = self.scanTool
                 pickerVC.sourceType = .photoLibrary
                 self.navigationController?.present(pickerVC, animated: true, completion: nil)
             }) { (deninit) in
+                self.cachePhotoPremission = false
                 self.showSettingAlert(content: "需要开启访问相册权限")
             }
         } else {
@@ -100,6 +120,58 @@ class MQHomeVC: MQBaseViewController {
         }
     }
     
+    /// 请求相册权限,展示最近图片动画
+    func requestPhotoPremission() -> Void {
+        guard !cachePhotoPremission else {
+            self.setupAnimateView()
+            return
+        }
+        MQAuthorization.checkPhotoLibraryPermission(authorizedBlock: { (success) in
+            self.cachePhotoPremission = true
+            self.setupAnimateView()
+        }) { (deninit) in
+            self.cachePhotoPremission = false
+        }
+    }
+    
+    func setupAnimateView() -> Void {
+        DispatchQueue.global().async {
+            self.enumerateAssetsInAssetCollection { (image) -> (Void) in
+                DispatchQueue.main.async {
+                    guard let tImage = image else { return }
+                    self.animateView.image = tImage
+                    if self.animateView.superview == nil {
+                        let y = MQScreenHeight - MQHomeIndicatorHeight - 44 - 48 - 60
+                        self.animateView.mm_x = self.photoLibraryBtn.mm_x
+                        self.animateView.mm_y = y
+                        self.animateView.mm_size = CGSize(width: 50, height: 50)
+                        self.view.addSubview(self.animateView)
+                    }
+                    self.animateView.startAnimate()
+                }
+            }
+        }
+    }
+    
+    func enumerateAssetsInAssetCollection(finish: @escaping (UIImage?)->(Void)) -> Void {
+        let asset = fetchLatestPhotoAsset()
+        let options = PHImageRequestOptions()
+        //控制照片尺寸
+        options.resizeMode = PHImageRequestOptionsResizeMode.fast
+//        options.networkAccessAllowed = true
+        PHCachingImageManager.default().requestImage(for: asset, targetSize: CGSize(width: 50, height: 50), contentMode: PHImageContentMode.aspectFill, options: options) { (image, info) in
+            finish(image)
+        }
+    }
+    
+    /// 获取最后一张图片，未测试。
+    func fetchLatestPhotoAsset() -> PHAsset {
+        let options = PHFetchOptions()
+        options.fetchLimit = 1
+        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        let fetchResults = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: options)
+        return fetchResults.firstObject!
+    }
     func showSettingAlert(content: String) -> Void {
         let alert = UIAlertController.alert(title: "提示", content: content, confirmTitle: "去设置", confirmHandler: { (_) in
             let settingUrl = URL(string: UIApplication.openSettingsURLString)
