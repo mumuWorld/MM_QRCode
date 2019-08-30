@@ -48,6 +48,7 @@
 		DF515F5E22F403F70012FFFC /* MQWKWebCV.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF515F5D22F403F70012FFFC /* MQWKWebCV.swift */; };
 		DF515F6122F40C370012FFFC /* MQRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF515F6022F40C370012FFFC /* MQRouter.swift */; };
 		DF515F6422F45BF40012FFFC /* MQToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF515F6322F45BF40012FFFC /* MQToastView.swift */; };
+		DFED0F0523192745002763F3 /* logo.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = DFED0F0423192745002763F3 /* logo.jpeg */; };
 		DFF6B9A022F7D126008423C2 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF6B99F22F7D126008423C2 /* UIView+Extension.swift */; };
 		DFF6B9A222F7D8B2008423C2 /* DispatchTime+MM_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF6B9A122F7D8B2008423C2 /* DispatchTime+MM_Extension.swift */; };
 		DFF6B9A522F83D18008423C2 /* MQHistoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF6B9A422F83D18008423C2 /* MQHistoryVC.swift */; };
@@ -133,6 +134,7 @@
 		DF515F5D22F403F70012FFFC /* MQWKWebCV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQWKWebCV.swift; sourceTree = "<group>"; };
 		DF515F6022F40C370012FFFC /* MQRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQRouter.swift; sourceTree = "<group>"; };
 		DF515F6322F45BF40012FFFC /* MQToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQToastView.swift; sourceTree = "<group>"; };
+		DFED0F0423192745002763F3 /* logo.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = logo.jpeg; sourceTree = "<group>"; };
 		DFF6B99F22F7D126008423C2 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		DFF6B9A122F7D8B2008423C2 /* DispatchTime+MM_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DispatchTime+MM_Extension.swift"; sourceTree = "<group>"; };
 		DFF6B9A422F83D18008423C2 /* MQHistoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQHistoryVC.swift; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 		DF03619022E8240E000B4C24 /* MMQRCode */ = {
 			isa = PBXGroup;
 			children = (
+				DFED0F00231922EA002763F3 /* resource */,
 				DF0361C122E82531000B4C24 /* Class */,
 				DF03619122E8240E000B4C24 /* AppDelegate.swift */,
 				DF03619522E8240E000B4C24 /* Main.storyboard */,
@@ -464,6 +467,22 @@
 			path = Toast;
 			sourceTree = "<group>";
 		};
+		DFED0F00231922EA002763F3 /* resource */ = {
+			isa = PBXGroup;
+			children = (
+				DFED0F01231922F5002763F3 /* img */,
+			);
+			path = resource;
+			sourceTree = "<group>";
+		};
+		DFED0F01231922F5002763F3 /* img */ = {
+			isa = PBXGroup;
+			children = (
+				DFED0F0423192745002763F3 /* logo.jpeg */,
+			);
+			path = img;
+			sourceTree = "<group>";
+		};
 		DFF6B9A322F83C77008423C2 /* History */ = {
 			isa = PBXGroup;
 			children = (
@@ -617,6 +636,7 @@
 				DF1C8CB22306ABF200A6125A /* MQLoadingView.xib in Resources */,
 				DF03619722E8240E000B4C24 /* Main.storyboard in Resources */,
 				DF0361DF22E9B9DC000B4C24 /* MQHome.storyboard in Resources */,
+				DFED0F0523192745002763F3 /* logo.jpeg in Resources */,
 				DFF6B9A722F842E9008423C2 /* MQHistoryVC.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

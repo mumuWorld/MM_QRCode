@@ -14,16 +14,15 @@ class MQHomeVC: MQBaseViewController {
     @IBOutlet weak var mainCollectionView: UICollectionView!
     var pushArray: Array<String> {
         get {
-            return ["MQScanHomeVC","MQHistoryVC","MQGenerateInputVC","MQHistoryVC"]
+            return ["MQHistoryVC","MQHistoryVC","MQGenerateInputVC",""]
         }
     }
     
     var itemArray: Array<Dictionary<String, Any>> {
         get {
-            let arr = [["img":"scan_icon_btn","title":"扫一扫"],
-                       ["img":"scan_icon_btn","title":"扫描记录"],
-                       ["img":"scan_icon_btn","title":"生成二维码"],
-                       ["img":"scan_icon_btn","title":"生成记录"],
+            let arr = [
+                       ["img":"scan_history_btn","title":"扫描记录"],
+                       ["img":"generate_history_btn","title":"生成记录"]
                        ]
             return arr
         }
@@ -57,6 +56,8 @@ class MQHomeVC: MQBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
+        self.navigationItem.title = "极简二维码"
+
 //        self.navigationController?.navigationBar.isTranslucent = true
 //        self.navigationController?.navigationBar.barTintColor = UIColor.mm_colorFromHex(color_vaule: 0x2882fc,alpha: 0.0)
         setupSubView()
@@ -65,6 +66,7 @@ class MQHomeVC: MQBaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: MQMainColor]
         self.navigationController?.navigationBar.setBackgroundImage(UIColor.mm_colorImgHex(color_vaule: 0x2882fc,alpha: 0.1), for: UIBarPosition.any, barMetrics: .default)
         self.navigationController?.delegate = nil
     }
@@ -186,7 +188,7 @@ class MQHomeVC: MQBaseViewController {
 extension MQHomeVC {
     func setupSubView() -> Void {
         scanClickView = MQScanClickView()
-        scanClickView?.frame = CGRect(x: 0, y: view.mm_height - 200, width: 50, height: 200)
+        scanClickView?.frame = CGRect(x: 0, y: view.mm_height - 200, width: 80, height: 200)
         scanClickView?.mm_centerX = view.mm_width * 0.5
         scanClickView?.callBack = { [weak self] (type) in
             self?.transitionMan = MQHomeTransitionManager()
@@ -207,7 +209,7 @@ extension MQHomeVC {
         }
         let vcStr = pushArray[index]
         let vc = UIStoryboard(name: "MQHome", bundle: nil).instantiateViewController(withIdentifier: vcStr)
-        if index == 3 {            
+        if index == 1 {
             (vc as! MQHistoryVC).viewType = HistoryType(rawValue: 1)!
 //            vc.setValue(1, forKeyPath: "viewType")
         }

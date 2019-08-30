@@ -38,7 +38,7 @@ class MQShowQRCodeVC: MQBaseViewController {
     }
     
     @IBAction func editCurrentTitle(_ sender: Any) {
-        
+        self.navigationController?.popViewController(animated: true)
     }
     
 }

@@ -61,6 +61,7 @@ class MQScanResultVC: MQBaseViewController {
         switch _resultType {
         case .OnlyStr:
             UIPasteboard.general.string = resultContentView.text
+            MQToastView.show(message: "已拷贝到剪切板")
             break
         case .NetPage:
             let web = MQWKWebCV()
